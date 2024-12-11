@@ -1,16 +1,19 @@
-import mongoose from "mongoose";
+import mongoose, { Model, InferSchemaType, model } from "mongoose";
+import passportLocalMongoose from "passport-local-mongoose";
 
 const { Schema } = mongoose;
 
 /** @UserType type checks the content of the UserSchema object*/
-interface UserType {
+interface UserInterface {
   username: string;
   firstName: string;
   lastName: string;
   email: string;
 }
 
-const UserSchema = new Schema<UserType>(
+type UserType = Model<UserInterface>;
+
+const UserSchema = new Schema<UserInterface, UserType>(
   {
     username: {
       type: String,
@@ -35,4 +38,9 @@ const UserSchema = new Schema<UserType>(
   { timestamps: true }
 );
 
-export const UserModel = mongoose.model<UserType>("UserModel", UserSchema);
+/** You're free to define your User how you like. Passport-Local Mongoose will add a username,
+ * hash and salt field to store the username, the hashed password and the salt value. */
+UserSchema.plugin(passportLocalMongoose);
+// type UserType = InferSchemaType<typeof UserSchema>;
+export const UserModel = mongoose.model("UserModel", UserSchema);
+// export default UserModel = mongoose.model("UserModel", UserSchema)
