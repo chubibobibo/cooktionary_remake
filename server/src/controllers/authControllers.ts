@@ -6,6 +6,7 @@ import { ExpressError } from "../ExpressError/ExpressError";
 import { StatusCodes } from "http-status-codes";
 import { UserInterface } from "../models/UserSchema";
 
+/** REGISTER USER */
 /** @RequestHandler type check for req,res,next provided by express */
 /** @UserInterface interface for type checking the contents of USerSchema and as well as the data from req.body */
 /** @setPassword method from passport local mongoose included in UserInterface type checking */
@@ -36,4 +37,17 @@ export const registerUser: RequestHandler = async (req, res) => {
   res
     .status(StatusCodes.OK)
     .json({ message: "User successfully registered", registeredUser });
+};
+
+/** LOGIN USER */
+export const loginUser: RequestHandler = async (req, res) => {
+  if (!req.body) {
+    throw new ExpressError("No data received", StatusCodes.BAD_REQUEST);
+  }
+  const { username } = req.body;
+  const loggedUser = await UserModel.findOne({ username });
+  if (!loggedUser) {
+    throw new ExpressError("Cannot find user", StatusCodes.NOT_FOUND);
+  }
+  res.status(StatusCodes.OK).json({ message: "User logged in", loggedUser });
 };

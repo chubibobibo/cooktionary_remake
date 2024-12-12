@@ -82,6 +82,12 @@ passport.deserializeUser(UserModel.deserializeUser());
 /** ROUTES */
 app.use("/api/auth", authRouter);
 
+app.use((req, res, next) => {
+  console.log(req.user);
+  console.log(req.session);
+  next();
+});
+
 /** Page not found error middleware */
 app.use("*", (req: Request, res: Response) => {
   res.status(StatusCodes.NOT_FOUND).json({ message: "Page not found" });
