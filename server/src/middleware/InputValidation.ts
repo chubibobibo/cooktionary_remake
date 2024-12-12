@@ -31,6 +31,7 @@ const withValidationErrors = (validateValues: ValidationChain[]) => {
 };
 
 // Input validations
+// register input validation
 export const registerInputValidation = withValidationErrors([
   body("username")
     .notEmpty()
@@ -77,6 +78,22 @@ export const registerInputValidation = withValidationErrors([
         );
       }
     }),
+  body("password")
+    .notEmpty()
+    .withMessage("Password cannot be empty")
+    .isLength({ min: 8 })
+    .withMessage("Password must be at least 8 characters"),
+]);
+
+//login input validation
+export const loginInputValidation = withValidationErrors([
+  body("username")
+    .notEmpty()
+    .withMessage("Username cannot be empty")
+    .isLength({ min: 4, max: 20 })
+    .withMessage(
+      "Username must be at least 4 characters and less than 20 characters"
+    ),
   body("password")
     .notEmpty()
     .withMessage("Password cannot be empty")

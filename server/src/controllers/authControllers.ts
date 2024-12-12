@@ -51,3 +51,47 @@ export const loginUser: RequestHandler = async (req, res) => {
   }
   res.status(StatusCodes.OK).json({ message: "User logged in", loggedUser });
 };
+
+/**LOGOUT USER */
+export const logoutUser: RequestHandler = (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.status(StatusCodes.OK).json({ message: "User logged out" });
+  });
+};
+
+/** UPDATE USER */
+export const updateUser: RequestHandler = async (req, res) => {
+  if (!req.body) {
+    throw new ExpressError("No data received", StatusCodes.BAD_REQUEST);
+  }
+  const { id } = req.params;
+  const { username, firstName, lastName, email, password }: UserInterface =
+    req.body;
+  const foundUser = await UserModel.findById(id);
+  if (!foundUser) {
+    throw new ExpressError("Cannot find user", StatusCodes.NOT_FOUND);
+  }
+  const updatedUser = await UserModel.findByIdAndUpdate(
+    id,
+    {
+      username: username,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+    },
+    { new: true }
+  );
+  if (!updateUser) {
+    throw new ExpressError("Cannot update user", StatusCodes.BAD_REQUEST);
+  }
+  if (password) {
+    await foundUser.setPassword(password);
+    await foundUser.save();
+  }
+  res
+    .status(StatusCodes.OK)
+    .json({ message: "User successfully updated", updatedUser });
+};
