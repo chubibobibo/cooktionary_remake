@@ -8,8 +8,8 @@ import { Document } from "mongoose";
 //   }
 // }
 
-declare module "passport-local-mongoose" {
-  interface PassportLocalDocument extends Document {
-    setPassword(password: string): Promise<void>;
-  }
-}
+// declare module "passport-local-mongoose" {
+//   interface PassportLocalDocument extends Document {
+//     setPassword(password: string): Promise<void>;
+//   }
+// }
