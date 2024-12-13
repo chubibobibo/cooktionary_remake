@@ -100,3 +100,56 @@ export const loginInputValidation = withValidationErrors([
     .isLength({ min: 8 })
     .withMessage("Password must be at least 8 characters"),
 ]);
+
+export const updateUserValidation = withValidationErrors([
+  body("username")
+    .notEmpty()
+    .withMessage("Username cannot be empty")
+    .isLength({ min: 4, max: 20 })
+    .withMessage(
+      "Username must be at least 4 characters and less than 20 characters"
+    )
+    .custom(async (username: string, { req }) => {
+      const foundUser = await UserModel.findOne({ username }); //findOne expects an object
+
+      if (foundUser && req.user.username !== username) {
+        throw new ExpressError(
+          "Username already used",
+          StatusCodes.UNAUTHORIZED
+        );
+      }
+    }),
+  body("firstName")
+    .notEmpty()
+    .withMessage("First name cannot be empty")
+    .isLength({ min: 4, max: 20 })
+    .withMessage(
+      "First name must be at least 4 characters and less than 20 characters"
+    ),
+  body("lastName")
+    .notEmpty()
+    .withMessage("Last name cannot be empty")
+    .isLength({ min: 4, max: 20 })
+    .withMessage(
+      "Last name must be at least 4 characters and less than 20 characters"
+    ),
+  body("email")
+    .notEmpty()
+    .withMessage("Email cannot be empty")
+    .isEmail()
+    .withMessage("Email should be valid")
+    .custom(async (email: string, { req }) => {
+      const foundEmail = await UserModel.findOne({ email }); //findOne expects an object
+      if (foundEmail && req.user.email !== email) {
+        throw new ExpressError(
+          "Email already in use",
+          StatusCodes.UNAUTHORIZED
+        );
+      }
+    }),
+  body("password")
+    .notEmpty()
+    .withMessage("Password cannot be empty")
+    .isLength({ min: 8 })
+    .withMessage("Password must be at least 8 characters"),
+]);

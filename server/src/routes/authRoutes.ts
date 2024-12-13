@@ -8,6 +8,7 @@ import {
 import {
   loginInputValidation,
   registerInputValidation,
+  updateUserValidation,
 } from "../middleware/InputValidation";
 import passport from "passport";
 import { StatusCodes } from "http-status-codes";
@@ -68,6 +69,6 @@ router.post(
 router.post("/logout", logoutUser);
 
 /** UPDATE USER */
-router.patch("/update/:id", updateUser);
+router.patch("/update/:id", updateUserValidation, updateUser);
 
 export default router;
