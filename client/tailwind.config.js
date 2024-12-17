@@ -8,6 +8,11 @@ export default {
         poppins: "Poppins", //default text used in App.css
         rubik: "Rubik", //for headings
       },
+
+      colors: {
+        customLoginBtnColor: "#d5bfd9",
+        customLoginBtnColorDark: "#c593cf",
+      },
     },
   },
   plugins: [flowbite.plugin()],
