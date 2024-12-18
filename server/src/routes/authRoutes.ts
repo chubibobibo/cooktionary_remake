@@ -1,4 +1,5 @@
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
+import { Request, Response, NextFunction } from "express-serve-static-core";
 import {
   loginUser,
   logoutUser,
@@ -13,6 +14,7 @@ import {
 import passport from "passport";
 import { StatusCodes } from "http-status-codes";
 import { rateLimit } from "express-rate-limit";
+import { isLoggedIn } from "../middleware/isLoggedIn";
 
 const router = express.Router();
 
@@ -69,6 +71,6 @@ router.post(
 router.post("/logout", logoutUser);
 
 /** UPDATE USER */
-router.patch("/update/:id", updateUserValidation, updateUser);
+router.patch("/update/:id", isLoggedIn, updateUserValidation, updateUser);
 
 export default router;

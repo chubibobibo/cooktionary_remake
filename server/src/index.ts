@@ -1,4 +1,4 @@
-import express from "express";
+import express, { RequestHandler } from "express";
 import { Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
@@ -9,7 +9,7 @@ import authRouter from "./routes/authRoutes";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
-import UserModel from "./models/UserSchema";
+import UserModel, { UserInterface } from "./models/UserSchema";
 
 dotenv.config();
 
@@ -77,16 +77,21 @@ app.use(passport.session()); //allows persistent userdata in sessions
 passport.use(UserModel.createStrategy()); // allows passport to use local strategy configured as plugin in UserModel.
 
 passport.serializeUser(UserModel.serializeUser() as any);
-passport.deserializeUser(UserModel.deserializeUser());
+passport.deserializeUser(UserModel.deserializeUser() as any);
+// passport.serializeUser((user, done) => done(null, user._id));
+// passport.deserializeUser(async (id, done) => {
+//   const user = await UserModel.findById(id);
+//   done(null, user);
+// });
+
+// app.use((req, res, next) => {
+//   console.log(`This is the logged user: ${req.user}`);
+//   //   console.log(req.session);
+//   next();
+// });
 
 /** ROUTES */
 app.use("/api/auth", authRouter);
-
-app.use((req, res, next) => {
-  console.log(req.user);
-  console.log(req.session);
-  next();
-});
 
 /** Page not found error middleware */
 app.use("*", (req: Request, res: Response) => {
