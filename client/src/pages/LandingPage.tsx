@@ -17,7 +17,7 @@ function LandingPage() {
         />
         {/* Button container */}
         <section className='flex flex-col gap-2 items-center sm:gap-4 md:gap-5'>
-          <p className='text-[14px] text-center sm:text-base md:text-lg'>
+          <p className='text-[12px] text-center sm:text-base md:text-lg'>
             You can create and save you own recipes by logging in
           </p>
           <section className='flex flex-col gap-2 md:flex-row'>
@@ -38,7 +38,7 @@ function LandingPage() {
               Login
             </Button>
           </section>
-          <p className='text-[14px] text-center mt-2 sm:text-base md:text-lg'>
+          <p className='text-[12px] text-center mt-2 sm:text-base md:text-lg'>
             or check out our library of recipes here:
           </p>
           <Button
