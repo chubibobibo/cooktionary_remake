@@ -5,6 +5,8 @@ import { RequestHandler } from "express"; // type checks req,res, next
 import { ExpressError } from "../ExpressError/ExpressError";
 import { StatusCodes } from "http-status-codes";
 import { UserInterface } from "../models/UserSchema";
+import { Request, Response } from "express-serve-static-core";
+import { ParamsInterface, UserDataInterface } from "../utils/index";
 
 /** REGISTER USER */
 /** @RequestHandler type check for req,res,next provided by express */
@@ -63,17 +65,29 @@ export const logoutUser: RequestHandler = (req, res, next) => {
 };
 
 /** UPDATE USER */
+/** asserts req res then provide general types from a file created that contains supposed type for each values. */
 export const updateUser: RequestHandler = async (req, res) => {
   if (!req.body) {
     throw new ExpressError("No data received", StatusCodes.BAD_REQUEST);
   }
   const { id } = req.params;
-  const { username, firstName, lastName, email, password }: UserInterface =
-    req.body;
+
+  // assert that req.user exist
+  if (!req.user) {
+    throw new ExpressError("user is not defined", StatusCodes.BAD_REQUEST);
+  }
+  //protect profiles from being updated by other user
+  if (req.user?._id !== id) {
+    throw new ExpressError("User is not authorized", StatusCodes.UNAUTHORIZED);
+  }
+
+  const { username, firstName, lastName, email, password } = req.body;
   const foundUser = await UserModel.findById(id);
+
   if (!foundUser) {
     throw new ExpressError("Cannot find user", StatusCodes.NOT_FOUND);
   }
+
   const updatedUser = await UserModel.findByIdAndUpdate(
     id,
     {
@@ -84,6 +98,7 @@ export const updateUser: RequestHandler = async (req, res) => {
     },
     { new: true }
   );
+
   if (!updateUser) {
     throw new ExpressError("Cannot update user", StatusCodes.BAD_REQUEST);
   }
