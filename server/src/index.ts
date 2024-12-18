@@ -9,7 +9,7 @@ import authRouter from "./routes/authRoutes";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
-import { UserModel } from "./models/UserSchema";
+import UserModel from "./models/UserSchema";
 
 dotenv.config();
 
@@ -32,6 +32,7 @@ async function main() {
 
 /** Mongo store for sessions */
 /** @store_secret runtime check verify process.env.STORE_SECRET*/
+
 const store_secret = process.env.STORE_SECRET;
 if (!store_secret) {
   throw new ExpressError("store secret not defined", StatusCodes.BAD_REQUEST);
@@ -47,6 +48,7 @@ const store = MongoStore.create({
 /** Express sessions = creates req.session object*/
 app.set("trust proxy", 1); // trust first proxy
 /** @session_secret assert process.env.session is defined */
+
 const session_secret = process.env.SESSION_SECRET;
 if (!session_secret) {
   throw new ExpressError("session secret not defined", StatusCodes.BAD_REQUEST);
@@ -79,6 +81,12 @@ passport.deserializeUser(UserModel.deserializeUser());
 
 /** ROUTES */
 app.use("/api/auth", authRouter);
+
+app.use((req, res, next) => {
+  console.log(req.user);
+  console.log(req.session);
+  next();
+});
 
 /** Page not found error middleware */
 app.use("*", (req: Request, res: Response) => {
