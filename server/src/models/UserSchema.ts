@@ -13,6 +13,7 @@ export interface UserInterface extends Document {
   email: string;
   password: string;
   roles: string;
+  _id: string;
   setPassword: (arg: string) => string; //accepts an argument of a string and returns a string
 }
 

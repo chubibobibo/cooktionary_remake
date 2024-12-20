@@ -101,6 +101,7 @@ export const loginInputValidation = withValidationErrors([
     .withMessage("Password must be at least 8 characters"),
 ]);
 
+//Update user input validation
 export const updateUserValidation = withValidationErrors([
   body("username")
     .notEmpty()

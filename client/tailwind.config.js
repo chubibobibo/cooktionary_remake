@@ -12,6 +12,7 @@ export default {
       colors: {
         customLoginBtnColor: "#d5bfd9",
         customLoginBtnColorDark: "#c593cf",
+        customLightGreen: "#C3D9BF",
       },
     },
   },
