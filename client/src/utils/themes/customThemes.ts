@@ -19,6 +19,12 @@ export const customInput: CustomFlowbiteTheme["textInput"] = {
         customInputColor:
           "border-gray-500 bg-green-50 text-customLoginBtnColorDark placeholder-customLightGreen focus:border-gray-500 focus:ring-customLightGreen dark:border-green-400 dark:bg-green-100 dark:focus:border-green-500 dark:focus:ring-green-500",
       },
+      sizes: {
+        sm: "p-2 sm:text-[7px]",
+        md: "p-2.5 text-sm",
+        lg: "p-4 sm:text-base",
+        custom: "p-2 sm:text-[2px]",
+      },
     },
   },
 };

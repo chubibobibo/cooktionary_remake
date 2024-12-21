@@ -5,7 +5,7 @@ import { customTheme } from "../../utils/themes/customThemes";
 
 import { toast } from "react-toastify";
 import axios, { AxiosError } from "axios";
-import { redirect, Form } from "react-router-dom";
+import { redirect, Form, Link } from "react-router-dom";
 
 import { FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
@@ -14,7 +14,7 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import { useState } from "react";
 
 /** action data to submit  */
-/** assert request type as Request instead of any */
+/** assert request object type as Request instead of any */
 /** @confirmedPwd obtains the 2 passwords from the data object (converted form data) */
 export const action = async ({ request }: { request: Request }) => {
   const formData = await request.formData(); //obtain data from forms
@@ -44,8 +44,8 @@ export const action = async ({ request }: { request: Request }) => {
 function Register() {
   /** State handles visibility icon */
   const [isVisible, setIsVisible] = useState<StateType>({
-    icon1: true,
-    icon2: true,
+    icon1: false,
+    icon2: false,
   });
 
   /** correct typing for event handlers */
@@ -70,7 +70,7 @@ function Register() {
         className='w-[7rem] h-[7rem] rounded-full -mt-[37rem] mb-2'
       />
       {/* </section> */}
-      <Card className='w-11/12 mb-4 '>
+      <Card className='w-11/12 mb-4 p-2'>
         <Form className='flex flex-col gap-4' method='POST'>
           {/** username text field */}
           <RegisterForm
@@ -129,6 +129,10 @@ function Register() {
           <Button theme={customTheme} type='submit' color='customLoginBtn'>
             Register
           </Button>
+          {/* <section className='text-[7px] flex h-1'>
+            <p>Already a user? </p>
+            <Link to='/login'>Login</Link>
+          </section> */}
         </Form>
       </Card>
     </section>

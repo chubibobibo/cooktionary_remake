@@ -18,22 +18,23 @@ function RegisterForm({
 }: InputProps) {
   /** @visibleIconCondition conditional to render icon for visible password depending on isVisible state(icon1 and icon2) */
   const visibleIconCondition = isVisible ? (
-    <FaEye color='gray' onClick={handleClick} />
-  ) : (
     <FaEyeSlash color='gray' onClick={handleClick} />
+  ) : (
+    <FaEye color='gray' onClick={handleClick} />
   );
 
   return (
     <section className='max-w-md relative'>
       <TextInput
         id={title}
-        type={isVisible ? type : "text"}
+        type={isVisible ? "text" : type}
         icon={inputIcon}
         placeholder={title}
         required={required}
         name={name}
         theme={customInput}
         color='customInputColor'
+        sizing='custom'
       />
       {/** separates the icon allows us to generate the icon as component for applying onClick event */}
       <div className='absolute inset-y-0 right-4 flex items-center'>
