@@ -5,6 +5,10 @@ export const customTheme: CustomFlowbiteTheme["button"] = {
     customLoginBtn:
       "bg-customLoginBtnColor hover:bg-customLoginBtnColorDark focus:ring-4 enabled:hover:bg-customLoginBtnColorDark",
   },
+  label: {
+    customLabel:
+      "ml-2 inline-flex h-4 w-4 items-center justify-center rounded-full bg-cyan-200 text-xs font-semibold text-cyan-800",
+  },
 };
 
 export const customInput: CustomFlowbiteTheme["textInput"] = {
@@ -23,7 +27,8 @@ export const customInput: CustomFlowbiteTheme["textInput"] = {
         sm: "p-2 sm:text-[7px]",
         md: "p-2.5 text-sm",
         lg: "p-4 sm:text-base",
-        custom: "p-2 sm:text-[2px]",
+        custom: "p-2 text-[12px]",
+        customSM: "p-2 sm:text-[12px]",
       },
     },
   },

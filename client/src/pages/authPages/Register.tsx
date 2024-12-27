@@ -5,7 +5,7 @@ import { customTheme } from "../../utils/themes/customThemes";
 
 import { toast } from "react-toastify";
 import axios, { AxiosError } from "axios";
-import { redirect, Form, Link } from "react-router-dom";
+import { redirect, Form } from "react-router-dom";
 
 import { FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
@@ -57,7 +57,7 @@ function Register() {
   };
 
   return (
-    <section className='w-screen h-full flex flex-col items-center justify-center'>
+    <section className='w-screen h-full flex flex-col items-center justify-center '>
       <img
         src='../../src/assets/registerBg.png'
         alt='background'
@@ -67,10 +67,10 @@ function Register() {
       <img
         src='../../src/assets/CooktionaryLogo.png'
         alt='cooktionary logo'
-        className='w-[7rem] h-[7rem] rounded-full -mt-[37rem] mb-2'
+        className='w-[7rem] h-[7rem] rounded-full -mt-[37rem] mb-2 opacity-100 z-10'
       />
       {/* </section> */}
-      <Card className='w-11/12 mb-4 p-2'>
+      <Card className='w-11/12 mb-4 p-2 flex justify-center sm:p-0 sm:w-4/12'>
         <Form className='flex flex-col gap-4' method='POST'>
           {/** username text field */}
           <RegisterForm
@@ -79,6 +79,7 @@ function Register() {
             required={true}
             type={"text"}
             name={"username"}
+            size={"custom"}
           />
           {/** firstname text field */}
           <RegisterForm
@@ -87,6 +88,7 @@ function Register() {
             required={true}
             type={"text"}
             name={"firstName"}
+            size={"custom"}
           />
           {/** lastname text field */}
           <RegisterForm
@@ -95,6 +97,7 @@ function Register() {
             required={true}
             type={"text"}
             name={"lastName"}
+            size={"custom"}
           />
           {/** email text field */}
           <RegisterForm
@@ -103,6 +106,7 @@ function Register() {
             required={true}
             type={"email"}
             name={"email"}
+            size={"custom"}
           />
           {/** password1 text field */}
           <RegisterForm
@@ -114,6 +118,7 @@ function Register() {
             handleClick={handleClickIcon1}
             isVisible={isVisible.icon1}
             isPassword={true}
+            size={"custom"}
           />
           {/** password2 text field */}
           <RegisterForm
@@ -125,6 +130,7 @@ function Register() {
             handleClick={handleClickIcon2}
             isVisible={isVisible.icon2}
             isPassword={true}
+            size={"custom"}
           />
           <Button theme={customTheme} type='submit' color='customLoginBtn'>
             Register

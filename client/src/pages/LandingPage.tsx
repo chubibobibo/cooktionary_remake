@@ -50,7 +50,7 @@ function LandingPage() {
             theme={customTheme}
             size='sm'
             color='customLoginBtn'
-            className='w-40'
+            className='w-40 mb-8'
           >
             Browse Recipes
           </Button>
