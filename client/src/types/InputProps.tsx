@@ -7,6 +7,7 @@ export type InputProps = {
   isVisible?: boolean;
   isPassword?: boolean;
   handleClick?: React.MouseEventHandler<HTMLOrSVGElement>;
+  size: string;
 };
 
 export type StateType = {

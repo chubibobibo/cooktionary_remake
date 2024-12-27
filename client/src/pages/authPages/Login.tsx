@@ -51,10 +51,10 @@ function Login() {
       <img
         src='../../src/assets/CooktionaryLogo.png'
         alt='cooktionary logo'
-        className='w-[7rem] h-[7rem] rounded-full -mt-[37rem] mb-2'
+        className='w-[7rem] h-[7rem] rounded-full -mt-[37rem] mb-2 opacity-100 z-10'
       />
       {/* </section> */}
-      <Card className='w-11/12 mb-4 '>
+      <Card className='w-11/12 h-[25rem] flex justify-center mb-4 sm:w-4/12'>
         <Form className='flex flex-col gap-4' method='POST'>
           {/** username text field */}
           <RegisterForm
@@ -63,6 +63,7 @@ function Login() {
             required={true}
             type={"text"}
             name={"username"}
+            size={"custom"}
           />
 
           {/** password1 text field */}
@@ -75,6 +76,7 @@ function Login() {
             handleClick={handleHidePwd}
             isVisible={isVisible}
             isPassword={true}
+            size={"custom"}
           />
           <Button theme={customTheme} type='submit' color='customLoginBtn'>
             Login
