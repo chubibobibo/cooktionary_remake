@@ -110,3 +110,15 @@ export const updateUser: RequestHandler = async (req, res) => {
     .status(StatusCodes.OK)
     .json({ message: "User successfully updated", updatedUser });
 };
+
+/** GET LOGGED USER */
+export const getLoggedUser: RequestHandler = async (req, res) => {
+  if (!req.user) {
+    throw new ExpressError("User is not logged in", StatusCodes.UNAUTHORIZED);
+  }
+  const foundLoggedUser = await UserModel.findById(req.user._id);
+  if (!foundLoggedUser) {
+    throw new ExpressError("Cannot find user", StatusCodes.NOT_FOUND);
+  }
+  res.status(StatusCodes.OK).json({ message: "User found", foundLoggedUser });
+};
