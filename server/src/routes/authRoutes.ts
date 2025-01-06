@@ -1,6 +1,7 @@
 import express from "express";
 import { Request, Response, NextFunction } from "express-serve-static-core";
 import {
+  getLoggedUser,
   loginUser,
   logoutUser,
   registerUser,
@@ -27,6 +28,9 @@ const limiter = rateLimit({
   message: "Too many attempts, Try again in 10 mins.",
   // store: ... , // Redis, Memcached, etc. See below.
 });
+
+//GET LOGGED USER
+router.get("/getLoggedUser", getLoggedUser);
 
 //REGISTER
 router.post("/register", registerInputValidation, registerUser);
