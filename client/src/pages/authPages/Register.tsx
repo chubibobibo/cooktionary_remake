@@ -5,7 +5,7 @@ import { customTheme } from "../../utils/themes/customThemes";
 
 import { toast } from "react-toastify";
 import axios, { AxiosError } from "axios";
-import { redirect, Form } from "react-router-dom";
+import { redirect, Form, Link } from "react-router-dom";
 
 import { FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
@@ -58,22 +58,17 @@ function Register() {
 
   return (
     <section
-      className='w-screen h-screen flex flex-col items-center bg-cover bg-center bg-blend-luminosity p-2 gap-4 sm:pt-[15rem]'
+      className='w-screen h-full flex flex-col items-center bg-cover bg-center bg-blend-luminosity p-2 gap-4 sm:pt-[10rem] sm:h-screen'
       style={{
         backgroundColor: "rgba(0, 0, 0, 0.5)",
         backgroundImage: "url(../../src/assets/registerBg.png)",
         // opacity: 0.5,
       }}
     >
-      {/* <img
-        src='../../src/assets/registerBg.png'
-        alt='background'
-        className='opacity-30 object-cover h-screen w-screen object-bottom-right z-0'
-      /> */}
       <img
         src='../../src/assets/CooktionaryLogo.png'
         alt='cooktionary logo'
-        className='w-[7rem] h-[7rem] rounded-full mb-2 opacity-100 z-1 sm:w-[10rem] sm:h-[10rem]'
+        className='w-[7rem] h-[7rem] rounded-full mb-2 opacity-100 z-1 sm:w-[15rem] sm:h-[15rem]'
       />
       {/* </section> */}
       <Card className='w-11/12 p-1 flex justify-center sm:p-0 sm:w-3/12'>
@@ -146,11 +141,13 @@ function Register() {
           >
             Register
           </Button>
-          {/* <section className='text-[7px] flex h-1'>
-            <p>Already a user? </p>
-            <Link to='/login'>Login</Link>
-          </section> */}
         </Form>
+        <section className='text-[14px] flex justify-center gap-1'>
+          <p>Already a user? </p>
+          <Link to='/login' className='text-customLightGreen'>
+            Login
+          </Link>
+        </section>
       </Card>
     </section>
   );
