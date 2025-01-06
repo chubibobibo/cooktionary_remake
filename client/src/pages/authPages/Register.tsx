@@ -57,20 +57,26 @@ function Register() {
   };
 
   return (
-    <section className='w-screen h-full flex flex-col items-center justify-center '>
-      <img
+    <section
+      className='w-screen h-screen flex flex-col items-center bg-cover bg-center bg-blend-luminosity p-2 gap-4 sm:pt-[15rem]'
+      style={{
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        backgroundImage: "url(../../src/assets/registerBg.png)",
+        // opacity: 0.5,
+      }}
+    >
+      {/* <img
         src='../../src/assets/registerBg.png'
         alt='background'
-        className='opacity-30 object-cover h-screen w-screen object-bottom-right'
-      />
-      {/* <section className='p-2'> */}
+        className='opacity-30 object-cover h-screen w-screen object-bottom-right z-0'
+      /> */}
       <img
         src='../../src/assets/CooktionaryLogo.png'
         alt='cooktionary logo'
-        className='w-[7rem] h-[7rem] rounded-full -mt-[37rem] mb-2 opacity-100 z-10'
+        className='w-[7rem] h-[7rem] rounded-full mb-2 opacity-100 z-1 sm:w-[10rem] sm:h-[10rem]'
       />
       {/* </section> */}
-      <Card className='w-11/12 mb-4 p-2 flex justify-center sm:p-0 sm:w-4/12'>
+      <Card className='w-11/12 p-1 flex justify-center sm:p-0 sm:w-3/12'>
         <Form className='flex flex-col gap-4' method='POST'>
           {/** username text field */}
           <RegisterForm
@@ -132,7 +138,12 @@ function Register() {
             isPassword={true}
             size={"custom"}
           />
-          <Button theme={customTheme} type='submit' color='customLoginBtn'>
+          <Button
+            theme={customTheme}
+            type='submit'
+            color='customLoginBtn'
+            className='sm:w-[10rem] sm:m-auto'
+          >
             Register
           </Button>
           {/* <section className='text-[7px] flex h-1'>

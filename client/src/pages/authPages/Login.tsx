@@ -22,10 +22,13 @@ export const action = async ({ request }: { request: Request }) => {
   } catch (err) {
     console.log(err);
     if (err instanceof AxiosError) {
+      /** check if err contains messages else get error from data */
       toast.error(
-        Array.isArray(err)
-          ? err?.response?.data?.message[0]
-          : err?.response?.data?.message
+        err?.response?.data?.message
+          ? Array.isArray(err)
+            ? err?.response?.data?.message[0]
+            : err?.response?.data?.message
+          : err?.response?.data
       );
       return err;
     }
@@ -41,20 +44,21 @@ function Login() {
     });
   };
   return (
-    <section className='w-screen h-full flex flex-col items-center justify-center'>
-      <img
-        src='../../src/assets/registerBg.png'
-        alt='background'
-        className='opacity-30 object-cover h-screen w-screen object-bottom-right'
-      />
+    <section
+      className='w-screen h-screen flex flex-col items-center justify-start bg-cover bg-center bg-blend-luminosity pt-20 sm:pt-[15rem] gap-4'
+      style={{
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        backgroundImage: "url(../../src/assets/registerBg.png)",
+      }}
+    >
       {/* <section className='p-2'> */}
       <img
         src='../../src/assets/CooktionaryLogo.png'
         alt='cooktionary logo'
-        className='w-[7rem] h-[7rem] rounded-full -mt-[37rem] mb-2 opacity-100 z-10'
+        className='w-[7rem] h-[7rem] rounded-full mb-2 opacity-100 z-10 sm:w-[10rem] sm:h-[10rem]'
       />
       {/* </section> */}
-      <Card className='w-11/12 h-[25rem] flex justify-center mb-4 sm:w-4/12'>
+      <Card className='w-11/12 flex justify-center mb-4 sm:w-3/12'>
         <Form className='flex flex-col gap-4' method='POST'>
           {/** username text field */}
           <RegisterForm
@@ -78,7 +82,12 @@ function Login() {
             isPassword={true}
             size={"custom"}
           />
-          <Button theme={customTheme} type='submit' color='customLoginBtn'>
+          <Button
+            theme={customTheme}
+            type='submit'
+            color='customLoginBtn'
+            className='sm:m-auto w-[10rem]'
+          >
             Login
           </Button>
         </Form>
