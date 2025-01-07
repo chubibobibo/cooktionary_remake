@@ -17,7 +17,7 @@ export const action = async ({ request }: { request: Request }) => {
   try {
     await axios.post("/api/auth/login", data);
     toast.success("User logged in");
-    return redirect("/");
+    return redirect("/dashboard/myRecipes");
   } catch (err) {
     console.log(err);
     if (err instanceof AxiosError) {
