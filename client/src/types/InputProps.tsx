@@ -23,7 +23,3 @@ export type UserDataType = {
   id: string;
   role: string;
 };
-
-export type categoryStateType = {
-  category: string;
-};

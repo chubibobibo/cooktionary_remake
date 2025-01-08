@@ -46,7 +46,7 @@ export const customNavbar: CustomFlowbiteTheme["navbar"] = {
       off: "",
     },
     inner: {
-      base: "flex flex-wrap items-center justify-between bg-purple-50 rounded-md w-full p-2",
+      base: "flex flex-wrap items-center justify-between bg-customLoginBtnColor rounded-md w-full p-2",
       fluid: {
         on: "",
         off: "container",
@@ -67,8 +67,8 @@ export const customNavbar: CustomFlowbiteTheme["navbar"] = {
   link: {
     base: "block py-2 pl-3 pr-4 md:p-0 text-sm",
     active: {
-      on: "bg-customLoginBtnColor text-white dark:text-white md:bg-transparent md:text-cyan-700",
-      off: "border-b border-gray-100 text-gray-700 hover:bg-customLoginBtnColor md:focus:bg-red-100 md:rounded-xl md:w-[5rem] md:flex md:justify-center dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:hover:bg-transparent md:hover:text-customLoginBtnColor focus:bg-customLoginBtnColor w-[20rem] flex justify-start border-0 rounded-md active:customLoginBtnColor md:dark:hover:bg-transparent md:dark:hover:text-white",
+      on: "bg-customLoginBtnColor text-white dark:text-white md:bg-green-200 md:text-gray-700 md:rounded-xl md:w-[6rem] flex justify-center",
+      off: "border-b border-gray-100 text-gray-700 hover:bg-red-200 hover:text-white md:focus:bg-green-200 md:rounded-xl md:w-[6rem] md:flex md:justify-center dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:hover:bg-green-200 md:hover:text-gray-400 md:active:bg-green-200 focus:bg-bg-green-200 flex justify-start border-0 rounded-md active:customLoginBtnColor md:dark:hover:bg-transparent md:dark:hover:text-white",
     },
     disabled: {
       on: "text-gray-400 hover:cursor-not-allowed dark:text-gray-600",
@@ -78,5 +78,25 @@ export const customNavbar: CustomFlowbiteTheme["navbar"] = {
   toggle: {
     base: "inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden",
     icon: "h-6 w-6 shrink-0",
+  },
+};
+
+export const customCard: CustomFlowbiteTheme["card"] = {
+  root: {
+    base: "flex rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800",
+    // children: "flex h-full flex-col justify-center gap-4 p-6",
+    children: "flex h-full flex-col mt-2 items-center",
+    horizontal: {
+      off: "flex-col",
+      on: "flex-col md:max-w-xl md:flex-row",
+    },
+    href: "hover:bg-gray-100 dark:hover:bg-gray-700",
+  },
+  img: {
+    base: "",
+    horizontal: {
+      off: "rounded-t-lg",
+      on: "h-96 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg",
+    },
   },
 };

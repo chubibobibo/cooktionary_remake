@@ -1,35 +1,32 @@
 import { Badge } from "flowbite-react";
-import { PiCowFill } from "react-icons/pi";
-import { GiPig } from "react-icons/gi";
-import { IoFish } from "react-icons/io5";
-import { FaLeaf } from "react-icons/fa6";
-import { MdCake } from "react-icons/md";
 
-import { badgeColors } from "../utils/dynamicBadgeColors/customBadgeColors";
-
+/** @propTypes sets types for the props received from parent component (Myrecipes.tsx)*/
 type propTypes = {
   category?: string;
-  handleActiveBadge?: React.MouseEventHandler<HTMLOrSVGElement>;
-  selectedCategory?: string;
+  handleActiveBadge?: (str: string) => void;
+  selectedCategoryProp?: { category: string | undefined }; //sets type for the prop object containing category
+  badgeIcon: React.FC<React.SVGProps<SVGSVGElement>> | undefined;
 };
 
 function BadgeComponent({
   category,
   handleActiveBadge,
   selectedCategoryProp,
+  badgeIcon,
 }: propTypes) {
-  console.log(selectedCategoryProp);
-  console.log(category);
   return (
     <>
       <Badge
-        className={`w-36 h-10 ${
-          category === selectedCategoryProp.category
-            ? "bg-blue-900"
-            : "bg-white"
-        }  flex justify-center active:bg-blue-200 cursor-pointer`}
-        icon={PiCowFill}
-        onClick={() => handleActiveBadge && handleActiveBadge(category)}
+        className={`w-[6rem] h-7 text-xs ${
+          category === selectedCategoryProp?.category //checks category which is the id of the specific badge cis equal to the current state.
+            ? "bg-green-300"
+            : "bg-customLoginBtnColor"
+        }  flex justify-center  active:bg-blue-200 cursor-pointer text-gray-50 sm:w-36 sm:h-10`}
+        icon={badgeIcon}
+        size='sm'
+        onClick={
+          () => handleActiveBadge && category && handleActiveBadge(category) //checks handleActiveBadge event handler and category prop if undefined
+        }
       >
         {category}
       </Badge>
