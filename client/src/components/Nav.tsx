@@ -10,11 +10,7 @@ function Nav() {
 
   return (
     <>
-      <Navbar
-        fluid
-        // className=' bg-customLoginBtnColor'
-        theme={customNavbar}
-      >
+      <Navbar fluid theme={customNavbar}>
         <Navbar.Brand href='https://flowbite-react.com'>
           <img
             src='../../src/assets/CooktionaryLogo.png'

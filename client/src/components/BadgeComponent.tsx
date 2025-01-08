@@ -17,11 +17,11 @@ function BadgeComponent({
   return (
     <>
       <Badge
-        className={`w-36 h-10 ${
+        className={`w-[6rem] h-7 text-xs ${
           category === selectedCategoryProp?.category //checks category which is the id of the specific badge cis equal to the current state.
             ? "bg-green-300"
             : "bg-customLoginBtnColor"
-        }  flex justify-center  active:bg-blue-200 cursor-pointer text-gray-50`}
+        }  flex justify-center  active:bg-blue-200 cursor-pointer text-gray-50 sm:w-36 sm:h-10`}
         icon={badgeIcon}
         size='sm'
         onClick={
