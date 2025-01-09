@@ -52,7 +52,7 @@ function MyRecipes() {
     <>
       {/* @badges is an array of objects containing the category and badge icon
        */}
-      <section className='flex justify-center gap-4 mt-2 flex-wrap pb-4 border-b-[1px] sm:py-5 sm:gap-20'>
+      <section className='flex justify-center gap-4 mt-2 flex-wrap pb-4 border-b-[1px] sm:py-5 xl:gap-20'>
         {badges.map((allBadges, idx) => {
           return (
             <section key={idx}>
