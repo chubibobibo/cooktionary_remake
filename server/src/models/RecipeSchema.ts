@@ -10,6 +10,7 @@ export interface RecipeInterface extends Document {
   recipeDescription: string;
   recipeAuthor: Types.ObjectId;
   cookingTime: number;
+  category: string;
 }
 
 const RecipeSchema = new Schema<RecipeInterface>(
@@ -50,6 +51,12 @@ const RecipeSchema = new Schema<RecipeInterface>(
     cookingTime: {
       type: Number,
       required: true,
+    },
+
+    category: {
+      type: String,
+      required: true,
+      enum: ["pork", "beef", "chicken", "fish", "vegetarian", "dessert"],
     },
   },
   { timestamps: true }
