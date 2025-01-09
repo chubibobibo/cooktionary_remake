@@ -6,7 +6,7 @@ import { loggedUserContext } from "../context/Context";
 
 function Nav() {
   const data = useContext(loggedUserContext);
-  console.log(data);
+  // console.log(data);
 
   return (
     <>
@@ -50,8 +50,7 @@ function Nav() {
         </div>
         <Navbar.Collapse className='rounded-md mt-2 mr-24'>
           <Navbar.Link href='/dashboard/myRecipes'>My Recipes</Navbar.Link>
-          <Navbar.Link href='#'>Browse Recipes</Navbar.Link>
-          <Navbar.Link href='#'>Services</Navbar.Link>
+          <Navbar.Link href='#'>Recipe Library</Navbar.Link>
           <Navbar.Link href='#'>About</Navbar.Link>
           <Navbar.Link href='#'>Contact</Navbar.Link>
         </Navbar.Collapse>

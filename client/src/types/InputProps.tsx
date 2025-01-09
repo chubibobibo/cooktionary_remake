@@ -23,3 +23,14 @@ export type UserDataType = {
   id: string;
   role: string;
 };
+
+export interface RecipeArray {
+  _id: string;
+  recipeName: string;
+  recipeDescription: string;
+  recipeIngredients: string;
+  recipeInstructions: string;
+  createdAt: string;
+  updatedAt: string;
+  cookingTime: number;
+}

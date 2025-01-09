@@ -13,6 +13,7 @@ import {
 
 import { action as registerAction } from "./pages/authPages/Register";
 import { action as loginAction } from "./pages/authPages/Login";
+import { loader as getRecipesLoader } from "./pages/dashboardPages/MyRecipes";
 
 function App() {
   const router = createBrowserRouter([
@@ -43,6 +44,7 @@ function App() {
             {
               path: "myRecipes",
               element: <MyRecipes />,
+              loader: getRecipesLoader,
             },
           ],
         },
