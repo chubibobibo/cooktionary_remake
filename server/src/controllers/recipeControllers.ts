@@ -17,3 +17,18 @@ export const addRecipe = async (req: Request, res: Response) => {
   }
   res.status(StatusCodes.OK).json({ message: "New recipe created", newRecipe });
 };
+
+export const getRecipes = async (req: Request, res: Response) => {
+  const allRecipes = await RecipeModel.find({
+    recipeAuthor: req.user?._id,
+  }).populate("recipeAuthor");
+  if (allRecipes.length === 0) {
+    res.status(StatusCodes.OK).json({ message: "Wow, It's empty here!" });
+  }
+  if (!allRecipes) {
+    throw new ExpressError("No recipes found", StatusCodes.NOT_FOUND);
+  }
+  res
+    .status(StatusCodes.OK)
+    .json({ messages: "All recipes found", allRecipes });
+};

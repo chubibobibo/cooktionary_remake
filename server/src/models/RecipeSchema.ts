@@ -9,6 +9,7 @@ export interface RecipeInterface extends Document {
   recipeInstructions: string;
   recipeDescription: string;
   recipeAuthor: Types.ObjectId;
+  cookingTime: number;
 }
 
 const RecipeSchema = new Schema<RecipeInterface>(
@@ -42,6 +43,12 @@ const RecipeSchema = new Schema<RecipeInterface>(
 
     recipeAuthor: {
       type: Schema.Types.ObjectId,
+      ref: "UserModel",
+      required: true,
+    },
+
+    cookingTime: {
+      type: Number,
       required: true,
     },
   },
