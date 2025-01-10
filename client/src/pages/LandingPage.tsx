@@ -32,14 +32,18 @@ function LandingPage() {
                 Register
               </Button>
             </Link>
-            <Button
-              theme={customTheme}
-              size='sm'
-              color='customLoginBtn'
-              className='w-40'
-            >
-              Login
-            </Button>
+
+            <Link to='/login'>
+              <Button
+                theme={customTheme}
+                size='sm'
+                color='customLoginBtn'
+                className='w-40'
+              >
+                Login
+              </Button>
+            </Link>
+
           </section>
           <p className='text-[12px] text-center mt-2 sm:text-base md:text-lg'>
             or check out our library of recipes here:
@@ -48,7 +52,7 @@ function LandingPage() {
             theme={customTheme}
             size='sm'
             color='customLoginBtn'
-            className='w-40'
+            className='w-40 mb-8'
           >
             Browse Recipes
           </Button>

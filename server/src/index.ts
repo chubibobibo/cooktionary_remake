@@ -6,6 +6,7 @@ import cors from "cors";
 import { StatusCodes } from "http-status-codes";
 import { ExpressError } from "./ExpressError/ExpressError";
 import authRouter from "./routes/authRoutes";
+import recipeRouter from "./routes/recipeRoutes";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
@@ -92,6 +93,9 @@ passport.deserializeUser(UserModel.deserializeUser() as any);
 
 /** ROUTES */
 app.use("/api/auth", authRouter);
+
+app.use("/api/recipe", recipeRouter);
+
 
 /** Page not found error middleware */
 app.use("*", (req: Request, res: Response) => {

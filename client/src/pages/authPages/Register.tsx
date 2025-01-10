@@ -5,7 +5,9 @@ import { customTheme } from "../../utils/themes/customThemes";
 
 import { toast } from "react-toastify";
 import axios, { AxiosError } from "axios";
-import { redirect, Form } from "react-router-dom";
+
+import { redirect, Form, Link } from "react-router-dom";
+
 
 import { FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
@@ -14,7 +16,9 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import { useState } from "react";
 
 /** action data to submit  */
-/** assert request type as Request instead of any */
+
+/** assert request object type as Request instead of any */
+
 /** @confirmedPwd obtains the 2 passwords from the data object (converted form data) */
 export const action = async ({ request }: { request: Request }) => {
   const formData = await request.formData(); //obtain data from forms
@@ -44,8 +48,10 @@ export const action = async ({ request }: { request: Request }) => {
 function Register() {
   /** State handles visibility icon */
   const [isVisible, setIsVisible] = useState<StateType>({
-    icon1: true,
-    icon2: true,
+
+    icon1: false,
+    icon2: false,
+
   });
 
   /** correct typing for event handlers */
@@ -57,20 +63,23 @@ function Register() {
   };
 
   return (
-    <section className='w-screen h-full flex flex-col items-center justify-center'>
-      <img
-        src='../../src/assets/registerBg.png'
-        alt='background'
-        className='opacity-30 object-cover h-screen w-screen object-bottom-right'
-      />
-      {/* <section className='p-2'> */}
+
+    <section
+      className='w-screen h-full flex flex-col items-center bg-cover bg-center bg-blend-luminosity p-2 gap-4 sm:pt-[10rem] sm:h-screen'
+      style={{
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        backgroundImage: "url(../../src/assets/registerBg.png)",
+        // opacity: 0.5,
+      }}
+    >
       <img
         src='../../src/assets/CooktionaryLogo.png'
         alt='cooktionary logo'
-        className='w-[7rem] h-[7rem] rounded-full -mt-[37rem] mb-2'
+        className='w-[7rem] h-[7rem] rounded-full mb-2 opacity-100 z-1 sm:w-[15rem] sm:h-[15rem]'
       />
       {/* </section> */}
-      <Card className='w-11/12 mb-4 '>
+      <Card className='w-11/12 p-1 flex justify-center sm:p-0 sm:w-3/12'>
+
         <Form className='flex flex-col gap-4' method='POST'>
           {/** username text field */}
           <RegisterForm
@@ -79,6 +88,9 @@ function Register() {
             required={true}
             type={"text"}
             name={"username"}
+
+            size={"custom"}
+
           />
           {/** firstname text field */}
           <RegisterForm
@@ -87,6 +99,9 @@ function Register() {
             required={true}
             type={"text"}
             name={"firstName"}
+
+            size={"custom"}
+
           />
           {/** lastname text field */}
           <RegisterForm
@@ -95,6 +110,9 @@ function Register() {
             required={true}
             type={"text"}
             name={"lastName"}
+
+            size={"custom"}
+
           />
           {/** email text field */}
           <RegisterForm
@@ -103,6 +121,9 @@ function Register() {
             required={true}
             type={"email"}
             name={"email"}
+
+            size={"custom"}
+
           />
           {/** password1 text field */}
           <RegisterForm
@@ -114,6 +135,9 @@ function Register() {
             handleClick={handleClickIcon1}
             isVisible={isVisible.icon1}
             isPassword={true}
+
+            size={"custom"}
+
           />
           {/** password2 text field */}
           <RegisterForm
@@ -125,11 +149,25 @@ function Register() {
             handleClick={handleClickIcon2}
             isVisible={isVisible.icon2}
             isPassword={true}
+
+            size={"custom"}
           />
-          <Button theme={customTheme} type='submit' color='customLoginBtn'>
+          <Button
+            theme={customTheme}
+            type='submit'
+            color='customLoginBtn'
+            className='sm:w-[10rem] sm:m-auto'
+          >
             Register
           </Button>
         </Form>
+        <section className='text-[14px] flex justify-center gap-1'>
+          <p>Already a user? </p>
+          <Link to='/login' className='text-customLightGreen'>
+            Login
+          </Link>
+        </section>
+
       </Card>
     </section>
   );

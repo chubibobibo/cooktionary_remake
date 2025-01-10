@@ -1,7 +1,19 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { HomeLayout, Register, Login, ErrorPage, LandingPage } from "./utils";
+import {
+  HomeLayout,
+  Register,
+  Login,
+  ErrorPage,
+  LandingPage,
+  DashboardLayout,
+  MyRecipes,
+} from "./utils";
+
+import { action as registerAction } from "./pages/authPages/Register";
+import { action as loginAction } from "./pages/authPages/Login";
+import { loader as getRecipesLoader } from "./pages/dashboardPages/MyRecipes";
 
 import { action as registerAction } from "./pages/authPages/Register";
 
@@ -18,13 +30,25 @@ function App() {
           index: true,
         },
         {
-          path: "/register",
+          path: "register",
           element: <Register />,
           action: registerAction,
         },
         {
-          path: "/login",
+          path: "login",
           element: <Login />,
+          action: loginAction,
+        },
+        {
+          path: "dashboard",
+          element: <DashboardLayout />,
+          children: [
+            {
+              path: "myRecipes",
+              element: <MyRecipes />,
+              loader: getRecipesLoader,
+            },
+          ],
         },
       ],
     },
