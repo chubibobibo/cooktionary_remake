@@ -4,7 +4,11 @@ import BadgeComponent from "../../components/BadgeComponent";
 import { badges } from "../../utils/BadgesArray";
 
 import { Card } from "flowbite-react";
+import { TextInput } from "flowbite-react";
+
+import { FaMagnifyingGlass } from "react-icons/fa6";
 import { customCard } from "../../utils/themes/customThemes";
+import { customInput } from "../../utils/themes/customThemes";
 
 import { IoMdTime } from "react-icons/io";
 import { MdOutlineDescription } from "react-icons/md";
@@ -49,7 +53,7 @@ function MyRecipes() {
   // console.log(recipeData);
 
   return (
-    <>
+    <section className='flex flex-col flex-wrap'>
       {/* @badges is an array of objects containing the category and badge icon
        */}
       <section className='flex justify-center gap-4 mt-2 flex-wrap pb-4 border-b-[1px] sm:py-5 xl:gap-20'>
@@ -67,14 +71,26 @@ function MyRecipes() {
           );
         })}
       </section>
-      <h2 className='mt-2'>My Custom Recipes</h2>
+      <h1 className='my-2 px-6 font-rubik font-semi-bold text-base m-auto md:mx-0 md:text-xl'>
+        My Custom Recipes
+      </h1>
+      <section className='w-12/12 px-6 md:w-5/12 xl:w-3/12'>
+        <TextInput
+          id='email4'
+          type='email'
+          icon={FaMagnifyingGlass}
+          placeholder='Search'
+          theme={customInput}
+          color='customInputColor'
+        />
+      </section>
       {/* @Vertical Card component that displays the recipe card */}
-      <section className='mt-1 p-2 flex gap-2'>
+      <section className='mt-1 p-2 gap-2 grid grid-cols-2 justify-items-center xl:grid-cols-3 xl:p-5 2xl:grid-cols-4'>
         {recipeData.map((allrecipes: RecipeArray) => {
           return (
-            <>
+            <section className='w-fit' key={allrecipes._id}>
               <Card
-                className='w-6/12 h-[17rem] border-[2px] border-customLoginBtnColor md:hidden'
+                className='min-w-11/12 h-[17rem] border-[2px] border-customLoginBtnColor md:hidden '
                 imgAlt='Recipe image'
                 imgSrc='../../src/assets/CooktionaryLogo.png'
                 theme={customCard}
@@ -103,13 +119,13 @@ function MyRecipes() {
               </Card>
               {/** horizontal card*/}
               <Card
-                className='w-6/12 h-[17rem] border-[2px] border-customLoginBtnColor hidden md:flex'
+                className='md:w-full md:h-[17rem] border-[2px] border-customLoginBtnColor hidden md:flex'
                 imgAlt='Meaningful alt text for an image that is not purely decorative'
                 imgSrc='../../src/assets/CooktionaryLogo.png'
                 theme={customCard}
                 horizontal
               >
-                <p className='text-sm font-bold tracking-tight text-gray-900 dark:text-white mt-2 md:text-xl'>
+                <p className='text-sm font-bold tracking-tight text-gray-900 dark:text-white mt-2 md:text-xl capitalize'>
                   {allrecipes.recipeName}
                 </p>
                 <section className='p-2'>
@@ -131,11 +147,11 @@ function MyRecipes() {
                   </section>
                 </section>
               </Card>
-            </>
+            </section>
           );
         })}
       </section>
-    </>
+    </section>
   );
 }
 export default MyRecipes;

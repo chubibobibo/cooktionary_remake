@@ -52,7 +52,7 @@ function Nav() {
           <Navbar.Link href='/dashboard/myRecipes'>My Recipes</Navbar.Link>
           <Navbar.Link href='#'>Recipe Library</Navbar.Link>
           <Navbar.Link href='#'>About</Navbar.Link>
-          <Navbar.Link href='#'>Contact</Navbar.Link>
+          {/* <Navbar.Link href='#'>Contact</Navbar.Link> */}
         </Navbar.Collapse>
       </Navbar>
     </>
