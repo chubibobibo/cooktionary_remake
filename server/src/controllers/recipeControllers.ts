@@ -26,6 +26,7 @@ export const getRecipes = async (req: Request, res: Response) => {
     recipeAuthor: req.user?._id,
   };
 
+  /** create a new entry in queryObj depending from the search query recieved using regex */
   if (search) {
     queryObj.$or = [{ recipeName: { $regex: search, $options: "i" } }];
   }
@@ -33,11 +34,12 @@ export const getRecipes = async (req: Request, res: Response) => {
   const allRecipes = await RecipeModel.find(queryObj).populate("recipeAuthor");
   if (allRecipes.length === 0) {
     res.status(StatusCodes.OK).json({ message: "Wow, It's empty here!" });
+  } else {
+    if (!allRecipes) {
+      throw new ExpressError("No recipes found", StatusCodes.NOT_FOUND);
+    }
+    res
+      .status(StatusCodes.OK)
+      .json({ messages: "All recipes found", allRecipes });
   }
-  if (!allRecipes) {
-    throw new ExpressError("No recipes found", StatusCodes.NOT_FOUND);
-  }
-  res
-    .status(StatusCodes.OK)
-    .json({ messages: "All recipes found", allRecipes });
 };
