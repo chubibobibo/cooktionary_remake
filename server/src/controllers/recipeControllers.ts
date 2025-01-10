@@ -1,5 +1,5 @@
 import "express-async-errors";
-import { Request, Response } from "express";
+import { query, Request, Response } from "express";
 import { ExpressError } from "../ExpressError/ExpressError";
 import { StatusCodes } from "http-status-codes";
 import RecipeModel from "../models/RecipeSchema";
@@ -19,9 +19,18 @@ export const addRecipe = async (req: Request, res: Response) => {
 };
 
 export const getRecipes = async (req: Request, res: Response) => {
-  const allRecipes = await RecipeModel.find({
+  /** @search query from the search form */
+  /** @queryobj object will be used as the default search parameter in the API */
+  const { search } = req.query;
+  const queryObj: any = {
     recipeAuthor: req.user?._id,
-  }).populate("recipeAuthor");
+  };
+
+  if (search) {
+    queryObj.$or = [{ recipeName: { $regex: search, $options: "i" } }];
+  }
+
+  const allRecipes = await RecipeModel.find(queryObj).populate("recipeAuthor");
   if (allRecipes.length === 0) {
     res.status(StatusCodes.OK).json({ message: "Wow, It's empty here!" });
   }
