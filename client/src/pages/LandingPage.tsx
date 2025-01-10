@@ -32,6 +32,7 @@ function LandingPage() {
                 Register
               </Button>
             </Link>
+
             <Link to='/login'>
               <Button
                 theme={customTheme}
@@ -42,6 +43,7 @@ function LandingPage() {
                 Login
               </Button>
             </Link>
+
           </section>
           <p className='text-[12px] text-center mt-2 sm:text-base md:text-lg'>
             or check out our library of recipes here:
