@@ -34,3 +34,9 @@ export interface RecipeArray {
   updatedAt: string;
   cookingTime: number;
 }
+
+export interface QueryEventChange extends React.ChangeEvent<HTMLInputElement> {}
+
+export interface SearchQuery {
+  search: string;
+}

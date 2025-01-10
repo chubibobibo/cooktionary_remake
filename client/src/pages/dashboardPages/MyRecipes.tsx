@@ -10,18 +10,27 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import { customCard } from "../../utils/themes/customThemes";
 import { customInput } from "../../utils/themes/customThemes";
 
+import { QueryEventChange } from "../../types/InputProps";
+import { SearchQuery } from "../../types/InputProps";
+
 import { IoMdTime } from "react-icons/io";
 import { MdOutlineDescription } from "react-icons/md";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, Form, useSubmit } from "react-router-dom";
 
 import { RecipeArray } from "../../types/InputProps";
 
 /** loader function to obtain all recipes */
-export const loader = async () => {
+import { LoaderFunctionArgs } from "react-router-dom";
+
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  /** @params created new url from the request sent by the form search input. @searchParams gives access to the url in the request and @entries returns a key value pair containing the queries which is then converted to a useable object by Object.fromEntries. */
   try {
-    const response = await axios.get("/api/recipe/getRecipes");
+    const params = Object.fromEntries([
+      ...new URL(request.url).searchParams.entries(),
+    ]);
+    const response = await axios.get("/api/recipe/getRecipes", { params });
     return response;
   } catch (err) {
     console.log(err);
@@ -37,7 +46,17 @@ function MyRecipes() {
   /** @selectedcategory state that contains data for the BadgeComponent:  */
   /** @handleActiveBadge event handler that sets @selectedCategory to the argument (str) that is passed on the event handler (handleActiveBadge) */
 
+  const submit = useSubmit();
+
   const [selectedCategory, setSelectedCategory] = useState({ category: "" });
+  const [searchQuery, setSearchQuery] = useState<SearchQuery>({ search: "" });
+
+  const handleQueryChange = (e: QueryEventChange): void => {
+    setSearchQuery((prev: SearchQuery) => {
+      return { ...prev, search: e.target.value };
+    });
+    submit(e.currentTarget.form);
+  };
 
   //set the type of the event handler that accepts str as a string.
   const handleActiveBadge: (str: string) => void = (str) => {
@@ -75,14 +94,19 @@ function MyRecipes() {
         My Custom Recipes
       </h1>
       <section className='w-12/12 px-6 md:w-5/12 xl:w-3/12'>
-        <TextInput
-          id='email4'
-          type='email'
-          icon={FaMagnifyingGlass}
-          placeholder='Search'
-          theme={customInput}
-          color='customInputColor'
-        />
+        <Form action='/dashboard/myRecipes'>
+          <TextInput
+            id='email4'
+            type='search'
+            name='search'
+            icon={FaMagnifyingGlass}
+            placeholder='Search'
+            theme={customInput}
+            color='customInputColor'
+            onChange={handleQueryChange}
+            value={searchQuery.search}
+          />
+        </Form>
       </section>
       {/* @Vertical Card component that displays the recipe card */}
       <section className='mt-1 p-2 gap-2 grid grid-cols-2 justify-items-center xl:grid-cols-3 xl:p-5 2xl:grid-cols-4'>
