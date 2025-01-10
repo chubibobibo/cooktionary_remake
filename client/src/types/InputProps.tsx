@@ -7,13 +7,16 @@ export type InputProps = {
   isVisible?: boolean;
   isPassword?: boolean;
   handleClick?: React.MouseEventHandler<HTMLOrSVGElement>;
+
   size: string;
+
 };
 
 export type StateType = {
   icon1: boolean;
   icon2: boolean;
 };
+
 
 export type UserDataType = {
   firstName: string;
@@ -35,9 +38,11 @@ export interface RecipeArray {
   cookingTime: number;
 }
 
+
 export interface HandleQueryEventChange
   extends React.ChangeEvent<HTMLInputElement> {}
 
 export interface SearchQuery {
   search: string;
 }
+
