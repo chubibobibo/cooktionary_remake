@@ -35,7 +35,8 @@ export interface RecipeArray {
   cookingTime: number;
 }
 
-export interface QueryEventChange extends React.ChangeEvent<HTMLInputElement> {}
+export interface HandleQueryEventChange
+  extends React.ChangeEvent<HTMLInputElement> {}
 
 export interface SearchQuery {
   search: string;

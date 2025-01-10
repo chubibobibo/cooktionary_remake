@@ -10,7 +10,7 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import { customCard } from "../../utils/themes/customThemes";
 import { customInput } from "../../utils/themes/customThemes";
 
-import { QueryEventChange } from "../../types/InputProps";
+import { HandleQueryEventChange } from "../../types/InputProps";
 import { SearchQuery } from "../../types/InputProps";
 
 import { IoMdTime } from "react-icons/io";
@@ -45,13 +45,14 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 function MyRecipes() {
   /** @selectedcategory state that contains data for the BadgeComponent:  */
   /** @handleActiveBadge event handler that sets @selectedCategory to the argument (str) that is passed on the event handler (handleActiveBadge) */
+  /** @searchQuery state that will handle the value of the search input */
 
   const submit = useSubmit();
 
   const [selectedCategory, setSelectedCategory] = useState({ category: "" });
   const [searchQuery, setSearchQuery] = useState<SearchQuery>({ search: "" });
 
-  const handleQueryChange = (e: QueryEventChange): void => {
+  const handleQueryChange = (e: HandleQueryEventChange): void => {
     setSearchQuery((prev: SearchQuery) => {
       return { ...prev, search: e.target.value };
     });
@@ -68,8 +69,8 @@ function MyRecipes() {
 
   /** @data response containing data of recipes from loader function */
   const data = useLoaderData();
-  const recipeData = data?.data?.allRecipes;
-  // console.log(recipeData);
+  const recipeData: [] = data?.data?.allRecipes;
+  // console.log(data);
 
   return (
     <section className='flex flex-col flex-wrap'>
@@ -110,70 +111,77 @@ function MyRecipes() {
       </section>
       {/* @Vertical Card component that displays the recipe card */}
       <section className='mt-1 p-2 gap-2 grid grid-cols-2 justify-items-center xl:grid-cols-3 xl:p-5 2xl:grid-cols-4'>
-        {recipeData.map((allrecipes: RecipeArray) => {
-          return (
-            <section className='w-fit' key={allrecipes._id}>
-              <Card
-                className='min-w-11/12 h-[17rem] border-[2px] border-customLoginBtnColor md:hidden '
-                imgAlt='Recipe image'
-                imgSrc='../../src/assets/CooktionaryLogo.png'
-                theme={customCard}
-              >
-                <p className='text-sm font-bold tracking-tight text-gray-900 dark:text-white mt-2'>
-                  {allrecipes?.recipeName}
-                </p>
-                <section className='p-2'>
-                  <section className='flex mt-2 gap-1'>
-                    <span className='font-rubik font-bold text-xs text-gray-700 dark:text-gray-400'>
-                      <IoMdTime size='18px' />
-                    </span>
-                    <span className='font-rubik text-xs text-gray-700 dark:text-gray-400'>
-                      {`${allrecipes?.cookingTime} minutes`}
-                    </span>
+        {!data?.data?.allRecipes ? (
+          <section className='grid col-span-3 text-base xl:col-span-4 xl:text-2xl'>
+            <h1>Wow it's empty here...</h1>
+          </section>
+        ) : (
+          recipeData?.map((allrecipes: RecipeArray) => {
+            return (
+              <section className='w-fit' key={allrecipes._id}>
+                <Card
+                  className='min-w-11/12 h-[17rem] border-[2px] border-customLoginBtnColor md:hidden '
+                  imgAlt='Recipe image'
+                  imgSrc='../../src/assets/CooktionaryLogo.png'
+                  theme={customCard}
+                >
+                  <p className='text-sm font-bold tracking-tight text-gray-900 dark:text-white mt-2'>
+                    {allrecipes?.recipeName}
+                  </p>
+                  <section className='p-2'>
+                    <section className='flex mt-2 gap-1'>
+                      <span className='font-rubik font-bold text-xs text-gray-700 dark:text-gray-400'>
+                        <IoMdTime size='18px' />
+                      </span>
+                      <span className='font-rubik text-xs text-gray-700 dark:text-gray-400'>
+                        {`${allrecipes?.cookingTime} minutes`}
+                      </span>
+                    </section>
+                    <section className='flex py-2'>
+                      <span>
+                        <MdOutlineDescription size='18px' />
+                      </span>
+                      <span className='font-rubik text-xs text-gray-700 dark:text-gray-400'>
+                        This is a description for the recipe. the
+                      </span>
+                    </section>
                   </section>
-                  <section className='flex py-2'>
-                    <span>
-                      <MdOutlineDescription size='18px' />
-                    </span>
-                    <span className='font-rubik text-xs text-gray-700 dark:text-gray-400'>
-                      This is a description for the recipe. the
-                    </span>
+                </Card>
+                {/** horizontal card*/}
+                <Card
+                  className='md:w-full md:h-[17rem] border-[2px] border-customLoginBtnColor hidden md:flex'
+                  imgAlt='Meaningful alt text for an image that is not purely decorative'
+                  imgSrc='../../src/assets/CooktionaryLogo.png'
+                  theme={customCard}
+                  horizontal
+                >
+                  <p className='text-sm font-bold tracking-tight text-gray-900 dark:text-white mt-2 md:text-xl capitalize'>
+                    {allrecipes.recipeName}
+                  </p>
+                  <section className='p-2'>
+                    <section className='flex mt-2 gap-1'>
+                      <span className='font-rubik font-bold text-xs text-gray-700 dark:text-gray-400'>
+                        <IoMdTime size='24px' />
+                      </span>
+                      <span className='font-rubik text-xs text-gray-700 dark:text-gray-400 md:text-base md:mb-2'>
+                        {`${allrecipes.cookingTime} minutes`}
+                      </span>
+                    </section>
+                    <section className='flex py-2'>
+                      <span>
+                        <MdOutlineDescription size='24px' />
+                      </span>
+                      <span className='font-rubik text-xs text-gray-700 dark:text-gray-400 md:text-base'>
+                        This is a description for the recipe. Another
+                        description
+                      </span>
+                    </section>
                   </section>
-                </section>
-              </Card>
-              {/** horizontal card*/}
-              <Card
-                className='md:w-full md:h-[17rem] border-[2px] border-customLoginBtnColor hidden md:flex'
-                imgAlt='Meaningful alt text for an image that is not purely decorative'
-                imgSrc='../../src/assets/CooktionaryLogo.png'
-                theme={customCard}
-                horizontal
-              >
-                <p className='text-sm font-bold tracking-tight text-gray-900 dark:text-white mt-2 md:text-xl capitalize'>
-                  {allrecipes.recipeName}
-                </p>
-                <section className='p-2'>
-                  <section className='flex mt-2 gap-1'>
-                    <span className='font-rubik font-bold text-xs text-gray-700 dark:text-gray-400'>
-                      <IoMdTime size='24px' />
-                    </span>
-                    <span className='font-rubik text-xs text-gray-700 dark:text-gray-400 md:text-base md:mb-2'>
-                      {`${allrecipes.cookingTime} minutes`}
-                    </span>
-                  </section>
-                  <section className='flex py-2'>
-                    <span>
-                      <MdOutlineDescription size='24px' />
-                    </span>
-                    <span className='font-rubik text-xs text-gray-700 dark:text-gray-400 md:text-base'>
-                      This is a description for the recipe. Another description
-                    </span>
-                  </section>
-                </section>
-              </Card>
-            </section>
-          );
-        })}
+                </Card>
+              </section>
+            );
+          })
+        )}
       </section>
     </section>
   );
