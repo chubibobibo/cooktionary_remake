@@ -18,10 +18,11 @@ export const addRecipe = async (req: Request, res: Response) => {
   res.status(StatusCodes.OK).json({ message: "New recipe created", newRecipe });
 };
 
+/** GET ALL RECIPES */
 export const getRecipes = async (req: Request, res: Response) => {
   /** @search query from the search form */
   /** @queryobj object will be used as the default search parameter in the API */
-  const { search } = req.query;
+  const { search, searchCategory } = req.query;
   const queryObj: any = {
     recipeAuthor: req.user?._id,
   };
@@ -29,6 +30,11 @@ export const getRecipes = async (req: Request, res: Response) => {
   /** create a new entry in queryObj depending from the search query recieved using regex */
   if (search) {
     queryObj.$or = [{ recipeName: { $regex: search, $options: "i" } }];
+  }
+
+  //search query for category using searchCategory input
+  if (searchCategory) {
+    queryObj.$or = [{ category: { $regex: searchCategory, $options: "i" } }];
   }
 
   const allRecipes = await RecipeModel.find(queryObj).populate("recipeAuthor");

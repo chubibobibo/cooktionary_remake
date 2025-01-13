@@ -1,19 +1,34 @@
 import { Badge } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
 
 /** @propTypes sets types for the props received from parent component (Myrecipes.tsx)*/
 type propTypes = {
   category?: string;
   handleActiveBadge?: (str: string) => void;
+  setSelectedCategory: React.Dispatch<
+    React.SetStateAction<{ category: string | undefined }>
+  >;
   selectedCategoryProp?: { category: string | undefined }; //sets type for the prop object containing category
   badgeIcon: React.FC<React.SVGProps<SVGSVGElement>> | undefined;
 };
 
 function BadgeComponent({
   category,
-  handleActiveBadge,
+  // handleActiveBadge,
   selectedCategoryProp,
   badgeIcon,
+  setSelectedCategory,
 }: propTypes) {
+  const navigate = useNavigate(); //navigates to a url with query strings
+  //set the type of the event handler that accepts str as a string.
+  const handleActiveBadge: (str: string) => void = (str) => {
+    setSelectedCategory({
+      ...selectedCategoryProp,
+      category: str,
+    });
+    navigate(`/dashboard/myRecipes?searchCategory=${category}`);
+  };
+
   return (
     <>
       <Badge
