@@ -33,6 +33,7 @@ export interface RecipeArray {
   createdAt: string;
   updatedAt: string;
   cookingTime: number;
+  category: string;
 }
 
 export interface HandleQueryEventChange

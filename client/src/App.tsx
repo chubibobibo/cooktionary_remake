@@ -11,6 +11,8 @@ import {
   MyRecipes,
 } from "./utils";
 
+import ProtectRoutes from "./utils/ProtectRoutes";
+
 import { action as registerAction } from "./pages/authPages/Register";
 import { action as loginAction } from "./pages/authPages/Login";
 import { loader as getRecipesLoader } from "./pages/dashboardPages/MyRecipes";
@@ -43,7 +45,11 @@ function App() {
           children: [
             {
               path: "myRecipes",
-              element: <MyRecipes />,
+              element: (
+                <ProtectRoutes>
+                  <MyRecipes />
+                </ProtectRoutes>
+              ),
               loader: getRecipesLoader,
             },
           ],

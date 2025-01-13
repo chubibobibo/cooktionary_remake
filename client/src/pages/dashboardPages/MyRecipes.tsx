@@ -18,6 +18,7 @@ import { MdOutlineDescription } from "react-icons/md";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useLoaderData, Form, useSubmit } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 import { RecipeArray } from "../../types/InputProps";
 
@@ -47,9 +48,16 @@ function MyRecipes() {
   /** @handleActiveBadge event handler that sets @selectedCategory to the argument (str) that is passed on the event handler (handleActiveBadge) */
   /** @searchQuery state that will handle the value of the search input */
 
+  /** @data response containing data of recipes from loader function */
+  const data = useLoaderData();
+  const recipeData: [] = data?.data?.allRecipes;
+  // console.log(data);
+
   const submit = useSubmit();
 
-  const [selectedCategory, setSelectedCategory] = useState({ category: "" });
+  const [selectedCategory, setSelectedCategory] = useState<{
+    category: string | undefined;
+  }>({ category: "" });
   const [searchQuery, setSearchQuery] = useState<SearchQuery>({ search: "" });
 
   const handleQueryChange = (e: HandleQueryEventChange): void => {
@@ -58,19 +66,6 @@ function MyRecipes() {
     });
     submit(e.currentTarget.form);
   };
-
-  //set the type of the event handler that accepts str as a string.
-  const handleActiveBadge: (str: string) => void = (str) => {
-    setSelectedCategory({
-      ...selectedCategory,
-      category: str,
-    });
-  };
-
-  /** @data response containing data of recipes from loader function */
-  const data = useLoaderData();
-  const recipeData: [] = data?.data?.allRecipes;
-  // console.log(data);
 
   return (
     <section className='flex flex-col flex-wrap'>
@@ -83,7 +78,7 @@ function MyRecipes() {
               <BadgeComponent
                 key={idx}
                 category={allBadges.category}
-                handleActiveBadge={handleActiveBadge}
+                setSelectedCategory={setSelectedCategory}
                 selectedCategoryProp={selectedCategory}
                 badgeIcon={allBadges.bdgIcon}
               />
@@ -109,7 +104,6 @@ function MyRecipes() {
           />
         </Form>
       </section>
-      {/* @Vertical Card component that displays the recipe card */}
       <section className='mt-1 p-2 gap-2 grid grid-cols-2 justify-items-center xl:grid-cols-3 xl:p-5 2xl:grid-cols-4'>
         {!data?.data?.allRecipes ? (
           <section className='grid col-span-3 text-base xl:col-span-4 xl:text-2xl'>
@@ -119,6 +113,7 @@ function MyRecipes() {
           recipeData?.map((allrecipes: RecipeArray) => {
             return (
               <section className='w-fit' key={allrecipes._id}>
+                {/* @Vertical Card component that displays the recipe card */}
                 <Card
                   className='min-w-11/12 h-[17rem] border-[2px] border-customLoginBtnColor md:hidden '
                   imgAlt='Recipe image'
@@ -128,7 +123,16 @@ function MyRecipes() {
                   <p className='text-sm font-bold tracking-tight text-gray-900 dark:text-white mt-2'>
                     {allrecipes?.recipeName}
                   </p>
+                  {/*card content section */}
                   <section className='p-2'>
+                    <section className='flex mt-2 gap-1'>
+                      <span>
+                        <MdOutlineDescription size='18px' />
+                      </span>
+                      <span className='font-rubik text-xs text-gray-700 dark:text-gray-400 capitalize'>
+                        {allrecipes?.category}
+                      </span>
+                    </section>
                     <section className='flex mt-2 gap-1'>
                       <span className='font-rubik font-bold text-xs text-gray-700 dark:text-gray-400'>
                         <IoMdTime size='18px' />
@@ -159,6 +163,14 @@ function MyRecipes() {
                     {allrecipes.recipeName}
                   </p>
                   <section className='p-2'>
+                    <section className='flex mt-2 gap-1'>
+                      <span>
+                        <MdOutlineDescription size='24px' />
+                      </span>
+                      <span className='font-rubik text-xs text-gray-700 dark:text-gray-400 md:text-base md:mb-2 capitalize'>
+                        {allrecipes?.category}
+                      </span>
+                    </section>
                     <section className='flex mt-2 gap-1'>
                       <span className='font-rubik font-bold text-xs text-gray-700 dark:text-gray-400'>
                         <IoMdTime size='24px' />
