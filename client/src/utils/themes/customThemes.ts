@@ -30,6 +30,10 @@ export const customInput: CustomFlowbiteTheme["textInput"] = {
         custom: "p-2 text-[12px]",
         customSM: "p-2 sm:text-[12px]",
       },
+      withRightIcon: {
+        on: "pr-10",
+        off: "",
+      },
     },
   },
 };
