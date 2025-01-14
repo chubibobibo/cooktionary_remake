@@ -4,6 +4,7 @@ import axios, { AxiosError } from "axios";
 
 import { useNavigate } from "react-router-dom";
 
+/** interface  for type checking ProtectRoutes */
 interface ProtectRoutesProps {
   children: React.ReactNode;
 }
@@ -18,7 +19,7 @@ export const ProtectRoutes: React.FC<ProtectRoutesProps> = ({ children }) => {
     const getLoggedUser = async () => {
       try {
         const response = await axios.get("/api/auth/getLoggedUser");
-        console.log(response);
+        // console.log(response);
         setLoggedUser((prev) => {
           return { ...prev, userData: response };
         });
@@ -33,9 +34,6 @@ export const ProtectRoutes: React.FC<ProtectRoutesProps> = ({ children }) => {
     getLoggedUser();
   }, []);
 
-  console.log(loggedUser);
-
-  //   return <>{loggedUser ? children : <Navigate to='/login' replace={true} />}</>;
   return <>{loggedUser && children} </>;
 };
 export default ProtectRoutes;
