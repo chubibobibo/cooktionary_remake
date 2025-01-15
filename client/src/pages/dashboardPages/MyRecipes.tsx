@@ -1,22 +1,19 @@
-import { useState } from "react";
 import BadgeComponent from "../../components/BadgeComponent";
+import ModalComponent from "../../components/ModalComponent";
+import CardComponent from "../../components/CardComponent";
 
 import { badges } from "../../utils/BadgesArray";
+import { customInput, customTheme } from "../../utils/themes/customThemes";
+import { LazyComponentLoad } from "../../utils/LazyComponentLoad";
 
-import { Card } from "flowbite-react";
-import { TextInput } from "flowbite-react";
-
+import { TextInput, Button } from "flowbite-react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { IoMdTime } from "react-icons/io";
-import { MdOutlineDescription } from "react-icons/md";
-import { customCard } from "../../utils/themes/customThemes";
-import { customInput } from "../../utils/themes/customThemes";
+import { FaPlus } from "react-icons/fa";
 
 import { HandleQueryEventChange } from "../../types/InputProps";
-import { SearchQuery } from "../../types/InputProps";
-import { RecipeArray } from "../../types/InputProps";
+import { SearchQuery, RecipeArray } from "../../types/InputProps";
 
-/** loader function to obtain all recipes */
+import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import {
@@ -26,8 +23,7 @@ import {
   LoaderFunctionArgs,
 } from "react-router-dom";
 
-import { LazyComponentLoad } from "../../utils/LazyComponentLoad";
-
+/** loader function to obtain all recipes */
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   /** @params created new url from the request sent by the form search input. @searchParams gives access to the url in the request and @entries returns a key value pair containing the queries which is then converted to a useable object by Object.fromEntries. */
   try {
@@ -47,17 +43,19 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 function MyRecipes() {
-  /** @selectedcategory state that contains data for the BadgeComponent:  */
+  /** @selectedCategory state that contains data for the BadgeComponent:  */
   /** @handleActiveBadge event handler that sets @selectedCategory to the argument (str) that is passed on the event handler (handleActiveBadge) */
   /** @searchQuery state that will handle the value of the search input */
-
   /** @data response containing data of recipes from loader function */
+  /** @recipeData array of objects containing allRecipes */
+  /** @openModal state to handle modal opening */
+  /** @handleQueryChange state to handle query inputs changes */
+
   const data = useLoaderData();
+  const submit = useSubmit();
   const recipeData: [] = data?.data?.allRecipes;
   // console.log(data);
-
-  const submit = useSubmit();
-
+  const [openModal, setOpenModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<{
     category: string | undefined;
   }>({ category: "" });
@@ -71,7 +69,7 @@ function MyRecipes() {
   };
 
   return (
-    <section className='flex flex-col flex-wrap'>
+    <section className='flex flex-col flex-wrap w-full'>
       {/* @badges is an array of objects containing the category and badge icon
        */}
       <section className='flex justify-center gap-4 mt-2 flex-wrap pb-4 border-b-[1px] sm:py-5 xl:gap-20'>
@@ -92,6 +90,19 @@ function MyRecipes() {
       <h1 className='my-2 px-6 font-rubik font-semi-bold text-base m-auto md:mx-0 md:text-xl'>
         My Custom Recipes
       </h1>
+
+      {/** Button modals */}
+      <section className='flex justify-center mb-5'>
+        <Button
+          onClick={() => setOpenModal(true)}
+          theme={customTheme}
+          color='customLoginBtn'
+        >
+          <FaPlus className='mr-2 h-5 w-4 text-gray-700' />
+          Create your own recipe
+        </Button>
+        <ModalComponent setOpenModal={setOpenModal} openModal={openModal} />
+      </section>
       {/** Query input for recipe name */}
       <section className='w-12/12 px-6 md:w-5/12 xl:w-3/12'>
         <Form action='/dashboard/myRecipes'>
@@ -108,7 +119,8 @@ function MyRecipes() {
           />
         </Form>
       </section>
-      <section className='mt-1 p-2 gap-2 grid grid-cols-2 justify-items-center xl:grid-cols-3 xl:p-5 2xl:grid-cols-4'>
+      {/** mapped cards */}
+      <section className='mt-1 p-2 gap-2 grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 justify-items-center md:grid-cols-1 lg:grid-cols-2 lg:items-center xl:p-5 xl:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4'>
         {!data?.data?.allRecipes ? (
           <section className='grid col-span-3 text-base xl:col-span-4 xl:text-2xl'>
             <h1>Wow it's empty here...</h1>
@@ -116,85 +128,9 @@ function MyRecipes() {
         ) : (
           recipeData?.map((allrecipes: RecipeArray) => {
             return (
-              <section className='w-fit' key={allrecipes._id}>
+              <section key={allrecipes._id}>
                 <LazyComponentLoad>
-                  {/* @Vertical Card component that displays the recipe card */}
-                  <Card
-                    className='min-w-11/12 h-[17rem] border-[2px] border-customLoginBtnColor md:hidden '
-                    imgAlt='Recipe image'
-                    imgSrc='../../src/assets/CooktionaryLogo.png'
-                    theme={customCard}
-                  >
-                    <p className='text-sm font-bold tracking-tight text-gray-900 dark:text-white mt-2'>
-                      {allrecipes?.recipeName}
-                    </p>
-                    {/*card content section */}
-                    <section className='p-2'>
-                      <section className='flex mt-2 gap-1'>
-                        <span>
-                          <MdOutlineDescription size='18px' />
-                        </span>
-                        <span className='font-rubik text-xs text-gray-700 dark:text-gray-400 capitalize'>
-                          {allrecipes?.category}
-                        </span>
-                      </section>
-                      <section className='flex mt-2 gap-1'>
-                        <span className='font-rubik font-bold text-xs text-gray-700 dark:text-gray-400'>
-                          <IoMdTime size='18px' />
-                        </span>
-                        <span className='font-rubik text-xs text-gray-700 dark:text-gray-400'>
-                          {`${allrecipes?.cookingTime} minutes`}
-                        </span>
-                      </section>
-                      <section className='flex py-2'>
-                        <span>
-                          <MdOutlineDescription size='18px' />
-                        </span>
-                        <span className='font-rubik text-xs text-gray-700 dark:text-gray-400'>
-                          This is a description for the recipe. the
-                        </span>
-                      </section>
-                    </section>
-                  </Card>
-                  {/** horizontal card*/}
-                  <Card
-                    className='md:w-full md:h-[17rem] border-[2px] border-customLoginBtnColor hidden md:flex'
-                    imgAlt='Meaningful alt text for an image that is not purely decorative'
-                    imgSrc='../../src/assets/CooktionaryLogo.png'
-                    theme={customCard}
-                    horizontal
-                  >
-                    <p className='text-sm font-bold tracking-tight text-gray-900 dark:text-white mt-2 md:text-xl capitalize'>
-                      {allrecipes.recipeName}
-                    </p>
-                    <section className='p-2'>
-                      <section className='flex mt-2 gap-1'>
-                        <span>
-                          <MdOutlineDescription size='24px' />
-                        </span>
-                        <span className='font-rubik text-xs text-gray-700 dark:text-gray-400 md:text-base md:mb-2 capitalize'>
-                          {allrecipes?.category}
-                        </span>
-                      </section>
-                      <section className='flex mt-2 gap-1'>
-                        <span className='font-rubik font-bold text-xs text-gray-700 dark:text-gray-400'>
-                          <IoMdTime size='24px' />
-                        </span>
-                        <span className='font-rubik text-xs text-gray-700 dark:text-gray-400 md:text-base md:mb-2'>
-                          {`${allrecipes.cookingTime} minutes`}
-                        </span>
-                      </section>
-                      <section className='flex py-2'>
-                        <span>
-                          <MdOutlineDescription size='24px' />
-                        </span>
-                        <span className='font-rubik text-xs text-gray-700 dark:text-gray-400 md:text-base'>
-                          This is a description for the recipe. Another
-                          description
-                        </span>
-                      </section>
-                    </section>
-                  </Card>
+                  <CardComponent allrecipes={allrecipes} />
                 </LazyComponentLoad>
               </section>
             );

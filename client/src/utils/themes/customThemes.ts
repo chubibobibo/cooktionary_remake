@@ -91,8 +91,8 @@ export const customCard: CustomFlowbiteTheme["card"] = {
     // children: "flex h-full flex-col justify-center gap-4 p-6",
     children: "flex h-full flex-col mt-2 items-center",
     horizontal: {
-      off: "flex-col",
-      on: "flex-col md:max-w-xl md:flex-row",
+      off: "flex-col sm:w-[18rem] xs:w-[25rem] xs:w-12/12",
+      on: "flex-col md:w-12/12 md:flex-row",
     },
     href: "hover:bg-gray-100 dark:hover:bg-gray-700",
   },

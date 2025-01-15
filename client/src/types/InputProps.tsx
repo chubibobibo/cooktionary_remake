@@ -47,3 +47,9 @@ export interface SearchQuery {
   search: string;
 }
 
+
+export interface stateProps {
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  openModal: boolean;
+}
+
