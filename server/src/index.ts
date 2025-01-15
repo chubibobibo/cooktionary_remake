@@ -93,7 +93,9 @@ passport.deserializeUser(UserModel.deserializeUser() as any);
 
 /** ROUTES */
 app.use("/api/auth", authRouter);
+
 app.use("/api/recipe", recipeRouter);
+
 
 /** Page not found error middleware */
 app.use("*", (req: Request, res: Response) => {
