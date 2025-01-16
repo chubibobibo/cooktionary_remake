@@ -13,10 +13,16 @@ import {
   customTheme,
 } from "../utils/themes/customThemes";
 
-import { stateProps, TempIngredientType } from "../types/InputProps";
+import {
+  stateProps,
+  IngredientStateProps,
+  RecipeArray,
+} from "../types/InputProps";
 import { FaPlus } from "react-icons/fa";
 
-import { useState } from "react";
+import { Form, useNavigation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const ModalComponent = ({
   setOpenModal,
@@ -26,18 +32,26 @@ const ModalComponent = ({
   recipes,
   setRecipes,
 }: stateProps) => {
+  const navigation = useNavigation();
+  const navigate = useNavigate();
+
+  const isLoading = navigation.state === "submitting";
+
+  /** @handleChange event handler for the text inputs */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRecipes((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   };
 
+  /** @handleChangeTextArea event handler for the textarea */
   const handleChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setRecipes((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   };
 
+  /** @handleChangeSelect event handler for the select input */
   const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setRecipes((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
@@ -51,6 +65,7 @@ const ModalComponent = ({
     });
   };
 
+  /** @handleAddIngredientClick used as onClick function to add data in the ingredients state to the recipes.recipeIngredients array */
   /** @handleAddIngredientClick returns all the previous recipes then accesses the recipeIngredients array. Then we accessed all the prev values in the recipeIngredients array, this is so that we can persist all it's values when updating. Then created a new object containing the new ingredientName and ingredientQty */
   const handleAddIngredientClick = () => {
     setRecipes((prev) => {
@@ -67,19 +82,34 @@ const ModalComponent = ({
     });
   };
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      await axios.post("/api/recipe/addRecipe", recipes);
+      navigate("/dashboard/myRecipes");
+      toast.success("Created new recipe");
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        //type check err if axios error
+        console.log(err);
+        toast.error(err?.response?.data?.message);
+      }
+    }
+  };
+
   //   console.log(tempIngredients);
-  console.log(ingredients);
-  console.log(recipes);
+  //   console.log(ingredients);
+  //   console.log(recipes);
   return (
     <>
       <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
         <Modal.Header>Create your recipe</Modal.Header>
         <Modal.Body>
-          <form className='flex max-w-md flex-col gap-4'>
+          <Form
+            className='flex max-w-md flex-col gap-4'
+            onSubmit={handleSubmit}
+          >
             <div>
-              {/* <div className='mb-2 block'>
-                <Label htmlFor='email1' value='Your email' />
-              </div> */}
               <TextInput
                 id='recipeName'
                 type='text'
@@ -116,9 +146,6 @@ const ModalComponent = ({
               />
             </div>
             <div>
-              {/* <div className='mb-2 block'>
-                <Label htmlFor='email1' value='Your email' />
-              </div> */}
               <TextInput
                 id='cookingTime'
                 type='text'
@@ -184,17 +211,27 @@ const ModalComponent = ({
                 <FaPlus className='mr-2 h-5 w-4 text-gray-700' />
                 Add
               </Button>
-              <div>'recipes'</div>
+              <div>
+                <h2>Recipe Ingredients</h2>
+                <div>
+                  {recipes?.recipeIngredients.map(
+                    (allRecipes: IngredientStateProps) => {
+                      return (
+                        <div key={allRecipes?._id}>
+                          <span>{allRecipes.ingredientName}</span>
+                          <span>{allRecipes.ingredientQty}</span>
+                        </div>
+                      );
+                    }
+                  )}
+                </div>
+              </div>
             </div>
-            <Button type='submit'>Submit</Button>
-          </form>
+            <Button type='submit' disabled={isLoading}>
+              {isLoading ? "Adding Recipe..." : "Submit"}
+            </Button>
+          </Form>
         </Modal.Body>
-        {/* <Modal.Footer>
-          <Button onClick={() => setOpenModal(false)}>I accept</Button>
-          <Button color='gray' onClick={() => setOpenModal(false)}>
-            Decline
-          </Button>
-        </Modal.Footer> */}
       </Modal>
     </>
   );

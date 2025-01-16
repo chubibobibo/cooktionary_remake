@@ -15,6 +15,7 @@ import {
   SearchQuery,
   RecipeArray,
   IngredientStateProps,
+  MappedRecipeType,
 } from "../../types/InputProps";
 
 import { useState } from "react";
@@ -68,16 +69,17 @@ function MyRecipes() {
   const [ingredients, setIngredients] = useState<IngredientStateProps>({
     ingredientName: "",
     ingredientQty: 0,
+    _id: null,
   });
 
   const [recipes, setRecipes] = useState<RecipeArray>({
-    _id: "",
+    _id: null,
     recipeName: "",
     recipeInstructions: "",
     recipeDescription: "",
     cookingTime: 0,
     category: "beef",
-    recipeIngredients: [],
+    recipeIngredients: [], //initial so that we can update with new objects from ingredient state
   });
 
   const handleQueryChange = (e: HandleQueryEventChange): void => {
@@ -152,9 +154,9 @@ function MyRecipes() {
             <h1>Wow it's empty here...</h1>
           </section>
         ) : (
-          recipeData?.map((allrecipes: RecipeArray) => {
+          recipeData?.map((allrecipes: MappedRecipeType) => {
             return (
-              <section key={allrecipes?._id}>
+              <section key={allrecipes._id}>
                 <LazyComponentLoad>
                   <CardComponent allrecipes={allrecipes} />
                 </LazyComponentLoad>

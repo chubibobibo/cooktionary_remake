@@ -27,9 +27,22 @@ export type UserDataType = {
 export interface IngredientStateProps {
   ingredientName: string;
   ingredientQty: number | null;
+  _id: string | null;
 }
 export interface RecipeArray {
-  _id: string;
+  _id: string | null;
+  recipeName: string;
+  recipeDescription: string;
+  recipeIngredients: IngredientStateProps[];
+  recipeInstructions: string;
+  // createdAt: string;
+  // updatedAt: string;
+  cookingTime: number;
+  category: string;
+}
+
+export interface MappedRecipeType {
+  _id: string | null;
   recipeName: string;
   recipeDescription: string;
   recipeIngredients: IngredientStateProps[];
@@ -54,9 +67,4 @@ export interface stateProps {
   setIngredients: React.Dispatch<React.SetStateAction<IngredientStateProps>>;
   recipes: RecipeArray;
   setRecipes: React.Dispatch<React.SetStateAction<RecipeArray>>;
-}
-
-export interface TempIngredientType {
-  ingredientName: string;
-  ingredientQty: number;
 }
