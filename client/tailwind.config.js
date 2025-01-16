@@ -9,6 +9,12 @@ export default {
         rubik: "Rubik", //for headings
       },
 
+      screens: {
+        " 2xs": "360px",
+        xs: "500px",
+        "3xl": "2169px",
+      },
+
       colors: {
         customLoginBtnColor: "#d5bfd9",
         customLoginBtnColorDark: "#c593cf",

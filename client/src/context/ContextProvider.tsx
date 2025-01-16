@@ -9,9 +9,7 @@ interface UserContextProviderProps {
   children: React.ReactNode;
 }
 
-export const UserContextProvider: React.FC<UserContextProviderProps> = ({
-  children,
-}) => {
+export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   /** @userData state to contain user data when fetching from API */
   const [userData, setUserData] = useState<UserDataType>();
 

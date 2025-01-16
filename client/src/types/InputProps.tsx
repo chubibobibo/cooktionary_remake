@@ -27,15 +27,33 @@ export type UserDataType = {
   role: string;
 };
 
+export interface IngredientStateProps {
+  ingredientName: string;
+  ingredientQty: number | null;
+  _id: string | null;
+}
 export interface RecipeArray {
-  _id: string;
+  _id: string | null;
   recipeName: string;
   recipeDescription: string;
-  recipeIngredients: string;
+  recipeIngredients: IngredientStateProps[];
   recipeInstructions: string;
-  createdAt: string;
-  updatedAt: string;
+  // createdAt: string;
+  // updatedAt: string;
   cookingTime: number;
+  category: string;
+}
+
+export interface MappedRecipeType {
+  _id: string | null;
+  recipeName: string;
+  recipeDescription: string;
+  recipeIngredients: IngredientStateProps[];
+  recipeInstructions: string;
+  // createdAt: string;
+  // updatedAt: string;
+  cookingTime: number;
+  category: string;
 }
 
 
@@ -44,5 +62,15 @@ export interface HandleQueryEventChange
 
 export interface SearchQuery {
   search: string;
+}
+
+
+export interface stateProps {
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  openModal: boolean;
+  ingredients: IngredientStateProps;
+  setIngredients: React.Dispatch<React.SetStateAction<IngredientStateProps>>;
+  recipes: RecipeArray;
+  setRecipes: React.Dispatch<React.SetStateAction<RecipeArray>>;
 }
 
