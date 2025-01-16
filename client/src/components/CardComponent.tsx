@@ -6,6 +6,8 @@ import { customCard } from "../utils/themes/customThemes";
 
 import { RecipeArray } from "../types/InputProps";
 
+/** @RecipeArray types for all the contents of the recipe data. */
+
 interface CardComponentProps {
   allrecipes: RecipeArray;
 }

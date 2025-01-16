@@ -10,8 +10,13 @@ import { TextInput, Button } from "flowbite-react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa";
 
-import { HandleQueryEventChange } from "../../types/InputProps";
-import { SearchQuery, RecipeArray } from "../../types/InputProps";
+import {
+  HandleQueryEventChange,
+  SearchQuery,
+  RecipeArray,
+  IngredientStateProps,
+  MappedRecipeType,
+} from "../../types/InputProps";
 
 import { useState } from "react";
 import axios from "axios";
@@ -61,6 +66,22 @@ function MyRecipes() {
   }>({ category: "" });
   const [searchQuery, setSearchQuery] = useState<SearchQuery>({ search: "" });
 
+  const [ingredients, setIngredients] = useState<IngredientStateProps>({
+    ingredientName: "",
+    ingredientQty: 0,
+    _id: null,
+  });
+
+  const [recipes, setRecipes] = useState<RecipeArray>({
+    _id: null,
+    recipeName: "",
+    recipeInstructions: "",
+    recipeDescription: "",
+    cookingTime: 0,
+    category: "beef",
+    recipeIngredients: [], //initial so that we can update with new objects from ingredient state
+  });
+
   const handleQueryChange = (e: HandleQueryEventChange): void => {
     setSearchQuery((prev: SearchQuery) => {
       return { ...prev, search: e.target.value };
@@ -101,7 +122,14 @@ function MyRecipes() {
           <FaPlus className='mr-2 h-5 w-4 text-gray-700' />
           Create your own recipe
         </Button>
-        <ModalComponent setOpenModal={setOpenModal} openModal={openModal} />
+        <ModalComponent
+          setOpenModal={setOpenModal}
+          openModal={openModal}
+          ingredients={ingredients}
+          setIngredients={setIngredients}
+          recipes={recipes}
+          setRecipes={setRecipes}
+        />
       </section>
       {/** Query input for recipe name */}
       <section className='w-12/12 px-6 md:w-5/12 xl:w-3/12'>
@@ -126,7 +154,7 @@ function MyRecipes() {
             <h1>Wow it's empty here...</h1>
           </section>
         ) : (
-          recipeData?.map((allrecipes: RecipeArray) => {
+          recipeData?.map((allrecipes: MappedRecipeType) => {
             return (
               <section key={allrecipes._id}>
                 <LazyComponentLoad>
