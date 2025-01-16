@@ -17,6 +17,8 @@ import { action as registerAction } from "./pages/authPages/Register";
 import { action as loginAction } from "./pages/authPages/Login";
 import { loader as getRecipesLoader } from "./pages/dashboardPages/MyRecipes";
 
+import { action as registerAction } from "./pages/authPages/Register";
+
 function App() {
   const router = createBrowserRouter([
     {
