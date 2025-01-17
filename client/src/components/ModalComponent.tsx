@@ -5,22 +5,20 @@ import {
   Modal,
   Textarea,
   Select,
+  Table,
 } from "flowbite-react";
 
 import {
   customInput,
   customTextArea,
   customTheme,
+  customTable,
 } from "../utils/themes/customThemes";
 
-import {
-  stateProps,
-  IngredientStateProps,
-  RecipeArray,
-} from "../types/InputProps";
+import { stateProps, IngredientStateProps } from "../types/InputProps";
 import { FaPlus } from "react-icons/fa";
 
-import { Form, useNavigation, useNavigate } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -32,10 +30,7 @@ const ModalComponent = ({
   recipes,
   setRecipes,
 }: stateProps) => {
-  const navigation = useNavigation();
   const navigate = useNavigate();
-
-  const isLoading = navigation.state === "submitting";
 
   /** @handleChange event handler for the text inputs */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,6 +62,7 @@ const ModalComponent = ({
 
   /** @handleAddIngredientClick used as onClick function to add data in the ingredients state to the recipes.recipeIngredients array */
   /** @handleAddIngredientClick returns all the previous recipes then accesses the recipeIngredients array. Then we accessed all the prev values in the recipeIngredients array, this is so that we can persist all it's values when updating. Then created a new object containing the new ingredientName and ingredientQty */
+  /** @setIngredients used to reset the inputs for ingredientName and ingredientQty inputs */
   const handleAddIngredientClick = () => {
     setRecipes((prev) => {
       return {
@@ -74,12 +70,13 @@ const ModalComponent = ({
         recipeIngredients: [
           ...prev.recipeIngredients,
           {
-            ingredientName: ingredients.ingredientName,
-            ingredientQty: ingredients.ingredientQty,
+            ingredientName: ingredients?.ingredientName,
+            ingredientQty: ingredients?.ingredientQty,
           },
         ],
       };
     });
+    setIngredients({ ingredientName: "", ingredientQty: 0, _id: null });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -92,7 +89,11 @@ const ModalComponent = ({
       if (axios.isAxiosError(err)) {
         //type check err if axios error
         console.log(err);
-        toast.error(err?.response?.data?.message);
+        toast.error(
+          Array.isArray(err?.response?.data?.message)
+            ? err?.response?.data?.message[0]
+            : err?.response?.data?.message
+        );
       }
     }
   };
@@ -159,7 +160,11 @@ const ModalComponent = ({
             </div>
             <div className='max-w-md'>
               <div className='mb-2 block'>
-                <Label htmlFor='category' value='Select your recipe category' />
+                <Label
+                  htmlFor='category'
+                  value='Select your recipe category'
+                  className='font-rubik font-base'
+                />
               </div>
               <Select
                 id='category'
@@ -179,6 +184,9 @@ const ModalComponent = ({
             {/** Add ingredients and quantity */}
             <div className='bg-red-100 w-full h-[40rem]'>
               <div className='p-2'>
+                <h2 className='font-rubik'>Add your ingredients</h2>
+              </div>
+              <div className='px-2'>
                 <TextInput
                   id='ingredientName'
                   type='text'
@@ -188,48 +196,77 @@ const ModalComponent = ({
                   color='customInputColor'
                   name='ingredientName'
                   onChange={handleChangeIngredients}
+                  value={ingredients?.ingredientName}
                 />
               </div>
               <div className='p-2'>
                 <TextInput
                   id='ingredientQty'
-                  type='text'
+                  type='number'
                   placeholder='Ingredient Quantity'
                   required
                   theme={customInput}
                   color='customInputColor'
                   name='ingredientQty'
                   onChange={handleChangeIngredients}
+                  value={ingredients?.ingredientQty}
                 />
               </div>
               <Button
                 theme={customTheme}
                 color='customLoginBtn'
-                className='ml-2'
+                className='ml-2 mt-1'
                 onClick={handleAddIngredientClick}
               >
                 <FaPlus className='mr-2 h-5 w-4 text-gray-700' />
                 Add
               </Button>
+              {/** ingredient table */}
               <div>
-                <h2>Recipe Ingredients</h2>
-                <div>
-                  {recipes?.recipeIngredients.map(
-                    (allRecipes: IngredientStateProps) => {
-                      return (
-                        <div key={allRecipes?._id}>
-                          <span>{allRecipes.ingredientName}</span>
-                          <span>{allRecipes.ingredientQty}</span>
-                        </div>
-                      );
-                    }
-                  )}
+                <h2 className='font-rubik p-2 mt-2'>Ingredient List</h2>
+                <div className='px-2'>
+                  <div className='overflow-x-auto'>
+                    <Table striped className='rounded-none'>
+                      <Table.Head>
+                        <Table.HeadCell>Ingredient Name</Table.HeadCell>
+                        <Table.HeadCell>Ingredient Quantity</Table.HeadCell>
+
+                        <Table.HeadCell>
+                          <span className='sr-only'>Edit</span>
+                        </Table.HeadCell>
+                      </Table.Head>
+                      <Table.Body className='divide-y'>
+                        {recipes?.recipeIngredients.map(
+                          (allRecipes: IngredientStateProps) => {
+                            return (
+                              <>
+                                <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+                                  <Table.Cell className='whitespace-nowrap font-medium text-gray-900 dark:text-white'>
+                                    {allRecipes?.ingredientName}
+                                  </Table.Cell>
+                                  <Table.Cell className='whitespace-nowrap font-medium text-gray-900 dark:text-white'>
+                                    {allRecipes?.ingredientQty}
+                                  </Table.Cell>
+                                  <Table.Cell>
+                                    <a
+                                      href='#'
+                                      className='font-medium text-cyan-600 hover:underline dark:text-cyan-500'
+                                    >
+                                      Delete
+                                    </a>
+                                  </Table.Cell>
+                                </Table.Row>
+                              </>
+                            );
+                          }
+                        )}
+                      </Table.Body>
+                    </Table>
+                  </div>
                 </div>
               </div>
             </div>
-            <Button type='submit' disabled={isLoading}>
-              {isLoading ? "Adding Recipe..." : "Submit"}
-            </Button>
+            <Button type='submit'>Submit</Button>
           </Form>
         </Modal.Body>
       </Modal>
