@@ -1,4 +1,5 @@
 import mongoose, { InferSchemaType, model, Types } from "mongoose";
+import { recipeCategory } from "../utils/recipecategory";
 const { Schema } = mongoose;
 
 export interface RecipeInterface extends Document {
@@ -56,7 +57,8 @@ const RecipeSchema = new Schema<RecipeInterface>(
     category: {
       type: String,
       required: true,
-      enum: ["pork", "beef", "chicken", "fish", "vegetarian", "dessert"],
+      // enum: ["pork", "beef", "chicken", "fish", "vegetarian", "dessert"],
+      enum: Object.values(recipeCategory),
     },
   },
   { timestamps: true }

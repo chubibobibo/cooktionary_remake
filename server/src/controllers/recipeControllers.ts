@@ -8,6 +8,10 @@ export const addRecipe = async (req: Request, res: Response) => {
   if (!req.body) {
     throw new ExpressError("Something went wrong", StatusCodes.BAD_REQUEST);
   }
+  if (!req.user) {
+    throw new ExpressError("User is not authorized", StatusCodes.UNAUTHORIZED);
+  }
+  req.body.recipeAuthor = req.user?._id;
   const newRecipe = await RecipeModel.create(req.body);
   if (!newRecipe) {
     throw new ExpressError(
