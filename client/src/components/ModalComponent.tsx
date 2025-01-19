@@ -21,6 +21,7 @@ import { FaPlus } from "react-icons/fa";
 import { Form, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 
 const ModalComponent = ({
   setOpenModal,
@@ -31,6 +32,8 @@ const ModalComponent = ({
   setRecipes,
 }: stateProps) => {
   const navigate = useNavigate();
+  const uuid = uuidv4();
+  //   console.log(recipes);
 
   /** @handleChange event handler for the text inputs */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,6 +75,7 @@ const ModalComponent = ({
           {
             ingredientName: ingredients?.ingredientName,
             ingredientQty: ingredients?.ingredientQty,
+            _id: uuid,
           },
         ],
       };
@@ -82,9 +86,14 @@ const ModalComponent = ({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await axios.post("/api/recipe/addRecipe", recipes);
-      navigate("/dashboard/myRecipes");
-      toast.success("Created new recipe");
+      //prevent sending if ingredients are empty
+      if (recipes.recipeIngredients?.length === 0) {
+        toast.error("Ingredients cannot be empty");
+      } else {
+        await axios.post("/api/recipe/addRecipe", recipes);
+        navigate("/dashboard/myRecipes");
+        toast.success("Created new recipe");
+      }
     } catch (err) {
       if (axios.isAxiosError(err)) {
         //type check err if axios error
@@ -98,9 +107,20 @@ const ModalComponent = ({
     }
   };
 
+  const handleDeleteIngredients = (id: number) => {
+    const recipeIngredients = [...recipes.recipeIngredients];
+    const filteredIngredients = recipeIngredients.filter((prev) => {
+      return prev._id !== id;
+    });
+    setRecipes((prev) => {
+      return { ...prev, recipeIngredients: filteredIngredients };
+    });
+    console.log(filteredIngredients);
+  };
+
   //   console.log(tempIngredients);
   //   console.log(ingredients);
-  //   console.log(recipes);
+  console.log(recipes);
   return (
     <>
       <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
@@ -191,7 +211,7 @@ const ModalComponent = ({
                   id='ingredientName'
                   type='text'
                   placeholder='Ingredient Name'
-                  required
+                  //   required
                   theme={customInput}
                   color='customInputColor'
                   name='ingredientName'
@@ -204,7 +224,7 @@ const ModalComponent = ({
                   id='ingredientQty'
                   type='number'
                   placeholder='Ingredient Quantity'
-                  required
+                  //   required
                   theme={customInput}
                   color='customInputColor'
                   name='ingredientQty'
@@ -238,6 +258,7 @@ const ModalComponent = ({
                       <Table.Body className='divide-y'>
                         {recipes?.recipeIngredients.map(
                           (allRecipes: IngredientStateProps) => {
+                            // console.log(allRecipes);
                             return (
                               <>
                                 <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
@@ -249,8 +270,13 @@ const ModalComponent = ({
                                   </Table.Cell>
                                   <Table.Cell>
                                     <a
-                                      href='#'
+                                      //   href='#'
                                       className='font-medium text-cyan-600 hover:underline dark:text-cyan-500'
+                                      onClick={() => {
+                                        handleDeleteIngredients(
+                                          allRecipes?._id
+                                        );
+                                      }}
                                     >
                                       Delete
                                     </a>
