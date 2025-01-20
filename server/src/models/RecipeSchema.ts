@@ -3,6 +3,8 @@ import { recipeCategory } from "../utils/recipecategory";
 const { Schema } = mongoose;
 
 export interface RecipeInterface extends Document {
+  photoUrl: string;
+  photoId: string;
   recipeName: string;
   recipeIngredients: string[];
   ingredientName: string;
@@ -16,6 +18,14 @@ export interface RecipeInterface extends Document {
 
 const RecipeSchema = new Schema<RecipeInterface>(
   {
+    photoUrl: {
+      type: String,
+    },
+
+    photoId: {
+      type: String,
+    },
+
     recipeName: {
       type: String,
       required: true,
