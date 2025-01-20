@@ -12,13 +12,16 @@ import {
   customInput,
   customTextArea,
   customTheme,
-  customTable,
 } from "../utils/themes/customThemes";
 
-import { stateProps, IngredientStateProps } from "../types/InputProps";
+import {
+  stateProps,
+  IngredientStateProps,
+  RecipeArray,
+} from "../types/InputProps";
 import { FaPlus } from "react-icons/fa";
 
-import { Form, useNavigate } from "react-router-dom";
+import { Form, redirect, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
@@ -67,7 +70,7 @@ const ModalComponent = ({
   /** @handleAddIngredientClick returns all the previous recipes then accesses the recipeIngredients array. Then we accessed all the prev values in the recipeIngredients array, this is so that we can persist all it's values when updating. Then created a new object containing the new ingredientName and ingredientQty */
   /** @setIngredients used to reset the inputs for ingredientName and ingredientQty inputs */
   const handleAddIngredientClick = () => {
-    setRecipes((prev) => {
+    setRecipes((prev: RecipeArray) => {
       return {
         ...prev,
         recipeIngredients: [
@@ -75,28 +78,74 @@ const ModalComponent = ({
           {
             ingredientName: ingredients?.ingredientName,
             ingredientQty: ingredients?.ingredientQty,
-            _id: uuid,
+            ingredientId: uuid,
           },
         ],
       };
     });
-    setIngredients({ ingredientName: "", ingredientQty: 0, _id: null });
+    //sets the ingredient state to empty the input field after every click on add button.
+    setIngredients({
+      ingredientName: "",
+      ingredientQty: 0,
+      ingredientId: null,
+      _id: null,
+    });
   };
 
+  const handleImageUploadChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files !== null) {
+      //type checking target.files is not null
+      const file = e.target.files[0];
+      setRecipes((prev: RecipeArray) => {
+        return { ...prev, photoUrl: file };
+      });
+    }
+  };
+
+  /** @handleSubmit checks if the ingredients array is not empty before submitting */
+  /** @formData will contain all the data from the inputs in order for multer to parse it. */
+  /** @append takes 2 args, name of key and value of key = using recipes state (contains data from the input forms) */
+  /** @newIngredient object that contains ingredientName, ingredientQty, ingredientId */
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append("recipeName", recipes.recipeName);
+    //map the recipeIngredients array, for every iteration append the stringified data into the formData
+    //remember to parse the stringified recipeIngredients in the server before saving to the DB
+    recipes.recipeIngredients.forEach((newIngredient) => {
+      //   console.log(newIngredient);
+      formData.append("recipeIngredients", JSON.stringify(newIngredient));
+    });
+    formData.append("recipeInstructions", recipes.recipeInstructions);
+    formData.append("recipeDescription", recipes.recipeDescription);
+    formData.append("cookingTime", recipes.cookingTime);
+    formData.append("category", recipes.category);
+    formData.append("photoUrl", recipes.photoUrl);
+    formData.append("photoId", recipes.photoId);
     try {
       //prevent sending if ingredients are empty
-      if (recipes.recipeIngredients?.length === 0) {
+      if (recipes?.recipeIngredients?.length === 0) {
         toast.error("Ingredients cannot be empty");
       } else {
-        await axios.post("/api/recipe/addRecipe", recipes);
-        navigate("/dashboard/myRecipes");
+        await axios.post("/api/recipe/addRecipe", formData);
+        setRecipes({
+          _id: "",
+          recipeName: "",
+          recipeIngredients: [],
+          recipeDescription: "",
+          recipeInstructions: "",
+          cookingTime: 0,
+          category: "",
+          photoUrl: "",
+          photoId: "",
+        });
         toast.success("Created new recipe");
+        setOpenModal(false);
+        return redirect("/dashboard/myRecipes");
       }
     } catch (err) {
+      //type check err if axios error
       if (axios.isAxiosError(err)) {
-        //type check err if axios error
         console.log(err);
         toast.error(
           Array.isArray(err?.response?.data?.message)
@@ -107,20 +156,23 @@ const ModalComponent = ({
     }
   };
 
-  const handleDeleteIngredients = (id: number) => {
-    const recipeIngredients = [...recipes.recipeIngredients];
+  /** @handleDeleteIngredients accepts an id that will be used to filter the ingredients array */
+  /** @setRecipes returns all prev contents of the recipes state then access the recipeIngredient to provide new values (filtered ingredients) */
+  const handleDeleteIngredients = (id: string) => {
+    const recipeIngredients = [...recipes.recipeIngredients]; //create new array containing previous recipeIngredients from the recipe state
+    //filters the ingredients array using the id passed in the event handler
     const filteredIngredients = recipeIngredients.filter((prev) => {
-      return prev._id !== id;
+      return prev.ingredientId !== id;
     });
     setRecipes((prev) => {
       return { ...prev, recipeIngredients: filteredIngredients };
     });
-    console.log(filteredIngredients);
+    // console.log(filteredIngredients);
   };
 
   //   console.log(tempIngredients);
   //   console.log(ingredients);
-  console.log(recipes);
+  //   console.log(recipes);
   return (
     <>
       <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
@@ -129,7 +181,23 @@ const ModalComponent = ({
           <Form
             className='flex max-w-md flex-col gap-4'
             onSubmit={handleSubmit}
+            method='POST'
+            encType='multipart/form-data'
           >
+            <div>
+              <div className='mb-2 block'>
+                <Label
+                  htmlFor='category'
+                  value='Upload image'
+                  className='font-rubik font-base'
+                />
+              </div>
+              <TextInput
+                type='file'
+                name='photoUrl'
+                onChange={handleImageUploadChange}
+              />
+            </div>
             <div>
               <TextInput
                 id='recipeName'
@@ -140,6 +208,7 @@ const ModalComponent = ({
                 color='customInputColor'
                 onChange={handleChange}
                 name='recipeName'
+                defaultValue={recipes.recipeName}
               />
             </div>
             <div>
@@ -152,6 +221,7 @@ const ModalComponent = ({
                 color='customColor'
                 name='recipeDescription'
                 onChange={handleChangeTextArea}
+                defaultValue={recipes.recipeDescription}
               />
             </div>
             <div>
@@ -159,23 +229,32 @@ const ModalComponent = ({
                 id='recipeInstructions'
                 placeholder='Cooking Instructions'
                 required
-                rows={3}
+                rows={8}
                 theme={customTextArea}
                 color='customColor'
                 name='recipeInstructions'
                 onChange={handleChangeTextArea}
+                defaultValue={recipes.recipeInstructions}
               />
             </div>
             <div>
+              <div className='mb-2 block'>
+                <Label
+                  htmlFor='category'
+                  value='Indicate the cooking time in minutes'
+                  className='font-rubik font-base'
+                />
+              </div>
               <TextInput
                 id='cookingTime'
-                type='text'
+                type='number'
                 placeholder='Cooking time'
                 required
                 theme={customInput}
                 color='customInputColor'
                 name='cookingTime'
                 onChange={handleChange}
+                defaultValue={recipes.cookingTime}
               />
             </div>
             <div className='max-w-md'>
@@ -191,6 +270,7 @@ const ModalComponent = ({
                 required
                 name='category'
                 onChange={handleChangeSelect}
+                defaultValue={recipes.category}
               >
                 <option value={"beef"}>Beef</option>
                 <option value={"pork"}>Pork</option>
@@ -216,20 +296,20 @@ const ModalComponent = ({
                   color='customInputColor'
                   name='ingredientName'
                   onChange={handleChangeIngredients}
-                  value={ingredients?.ingredientName}
+                  value={ingredients?.ingredientName ?? ""}
                 />
               </div>
               <div className='p-2'>
                 <TextInput
                   id='ingredientQty'
-                  type='number'
+                  type='text'
                   placeholder='Ingredient Quantity'
                   //   required
                   theme={customInput}
                   color='customInputColor'
                   name='ingredientQty'
                   onChange={handleChangeIngredients}
-                  value={ingredients?.ingredientQty}
+                  value={ingredients?.ingredientQty ?? ""}
                 />
               </div>
               <Button
@@ -270,11 +350,10 @@ const ModalComponent = ({
                                   </Table.Cell>
                                   <Table.Cell>
                                     <a
-                                      //   href='#'
                                       className='font-medium text-cyan-600 hover:underline dark:text-cyan-500'
                                       onClick={() => {
                                         handleDeleteIngredients(
-                                          allRecipes?._id
+                                          allRecipes?.ingredientId ?? ""
                                         );
                                       }}
                                     >

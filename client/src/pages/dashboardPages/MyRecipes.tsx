@@ -69,11 +69,14 @@ function MyRecipes() {
   const [ingredients, setIngredients] = useState<IngredientStateProps>({
     ingredientName: "",
     ingredientQty: 0,
+    ingredientId: null,
     _id: null,
   });
 
   const [recipes, setRecipes] = useState<RecipeArray>({
     _id: null,
+    photoUrl: "",
+    photoId: "",
     recipeName: "",
     recipeInstructions: "",
     recipeDescription: "",
@@ -103,6 +106,7 @@ function MyRecipes() {
                 setSelectedCategory={setSelectedCategory}
                 selectedCategoryProp={selectedCategory}
                 badgeIcon={allBadges.bdgIcon}
+                name={allBadges.name}
               />
             </section>
           );

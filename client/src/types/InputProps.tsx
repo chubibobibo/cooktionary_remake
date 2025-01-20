@@ -28,9 +28,12 @@ export interface IngredientStateProps {
   ingredientName: string | null;
   ingredientQty: number | null;
   _id: string | null;
+  ingredientId: string | null;
 }
 export interface RecipeArray {
   _id: string | null;
+  photoUrl: string;
+  photoId: string;
   recipeName: string;
   recipeDescription: string;
   recipeIngredients: IngredientStateProps[];
@@ -43,6 +46,9 @@ export interface RecipeArray {
 
 export interface MappedRecipeType {
   _id: string | null;
+  photoUrl: string;
+  photoId: string;
+  ingredientId: string | null;
   recipeName: string;
   recipeDescription: string;
   recipeIngredients: IngredientStateProps[];
