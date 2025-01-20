@@ -11,6 +11,7 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
 import UserModel, { UserInterface } from "./models/UserSchema";
+import { v2 as cloudinary } from "cloudinary";
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 
 /** Connection DB */
 /** @mongo_uri used in runtime check if process.env.MONGO_URI is properly defined */
@@ -90,6 +92,13 @@ passport.deserializeUser(UserModel.deserializeUser() as any);
 //   //   console.log(req.session);
 //   next();
 // });
+
+/** Cloudinary config */
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
+});
 
 /** ROUTES */
 app.use("/api/auth", authRouter);

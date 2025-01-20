@@ -3,11 +3,35 @@ import { query, Request, Response } from "express";
 import { ExpressError } from "../ExpressError/ExpressError";
 import { StatusCodes } from "http-status-codes";
 import RecipeModel from "../models/RecipeSchema";
+import cloudinary from "cloudinary";
+import { promises as fs } from "fs";
 
 export const addRecipe = async (req: Request, res: Response) => {
   if (!req.body) {
     throw new ExpressError("Something went wrong", StatusCodes.BAD_REQUEST);
   }
+  if (!req.user) {
+    throw new ExpressError("User is not authorized", StatusCodes.UNAUTHORIZED);
+  }
+
+  if (req.file) {
+    const response = await cloudinary.v2.uploader.upload(req.file.path);
+    await fs.unlink(req.file.path); //delete photo in the public folder
+    req.body.photoUrl = response.secure_url;
+    req.body.photoId = response.public_id;
+  }
+
+  /** @mappedIngredients req.body.recipeIngredients is an array of stringified objects (from sending the formData). Mapped every item to parse each one then returns the parsed objects in a new array*/
+  const mappedIngredients = req.body.recipeIngredients.map(
+    (ingredient: any) => {
+      const parsedIngredient = JSON.parse(ingredient);
+      return parsedIngredient;
+    }
+  );
+
+  req.body.recipeIngredients = mappedIngredients; //parsed obj in a new array as value for req.body.recipeIngredients
+  req.body.recipeAuthor = req.user?._id;
+
   const newRecipe = await RecipeModel.create(req.body);
   if (!newRecipe) {
     throw new ExpressError(

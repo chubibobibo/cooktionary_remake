@@ -28,12 +28,15 @@ export type UserDataType = {
 };
 
 export interface IngredientStateProps {
-  ingredientName: string;
+  ingredientName: string | null;
   ingredientQty: number | null;
   _id: string | null;
+  ingredientId: string | null;
 }
 export interface RecipeArray {
   _id: string | null;
+  photoUrl: string;
+  photoId: string;
   recipeName: string;
   recipeDescription: string;
   recipeIngredients: IngredientStateProps[];
@@ -46,6 +49,9 @@ export interface RecipeArray {
 
 export interface MappedRecipeType {
   _id: string | null;
+  photoUrl: string;
+  photoId: string;
+  ingredientId: string | null;
   recipeName: string;
   recipeDescription: string;
   recipeIngredients: IngredientStateProps[];
@@ -68,7 +74,7 @@ export interface SearchQuery {
 export interface stateProps {
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   openModal: boolean;
-  ingredients: IngredientStateProps;
+  ingredients: IngredientStateProps | null;
   setIngredients: React.Dispatch<React.SetStateAction<IngredientStateProps>>;
   recipes: RecipeArray;
   setRecipes: React.Dispatch<React.SetStateAction<RecipeArray>>;

@@ -10,6 +10,7 @@ type propTypes = {
   >;
   selectedCategoryProp?: { category: string | undefined }; //sets type for the prop object containing category
   badgeIcon: React.FC<React.SVGProps<SVGSVGElement>> | undefined;
+  name: string;
 };
 
 function BadgeComponent({
@@ -18,6 +19,7 @@ function BadgeComponent({
   selectedCategoryProp,
   badgeIcon,
   setSelectedCategory,
+  name,
 }: propTypes) {
   const navigate = useNavigate(); //navigates to a url with query strings
   //set the type of the event handler that accepts str as a string.
@@ -43,7 +45,7 @@ function BadgeComponent({
           () => handleActiveBadge && category && handleActiveBadge(category) //checks handleActiveBadge event handler and category prop if undefined
         }
       >
-        {category}
+        {name}
       </Badge>
     </>
   );

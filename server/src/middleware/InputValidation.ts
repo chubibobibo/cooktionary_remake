@@ -10,6 +10,8 @@ import UserModel from "../models/UserSchema";
 import { StatusCodes } from "http-status-codes";
 import { UserInterface } from "../models/UserSchema";
 
+import { recipeCategory } from "../utils/recipecategory";
+
 //create a function that will handle the error
 //This function will accept an array (validateValues) of valeus to be validated.
 //then this function will return the array we passed as an argument and an error response
@@ -153,4 +155,38 @@ export const updateUserValidation = withValidationErrors([
     .withMessage("Password cannot be empty")
     .isLength({ min: 8 })
     .withMessage("Password must be at least 8 characters"),
+]);
+
+export const addRecipeValidation = withValidationErrors([
+  body("recipeName")
+    .notEmpty()
+    .withMessage("Recipe name cannot be empty")
+    .isLength({ max: 30 })
+    .withMessage("Recipe name too long"),
+  body("recipeInstructions")
+    .notEmpty()
+    .withMessage("Recipe instructions cannot be empty"),
+  body("recipeDescription")
+    .notEmpty()
+    .withMessage("Recipe description cannot be empty"),
+  body("cookingTime")
+    .notEmpty()
+    .withMessage("Cooking time cannot be empty")
+    .isNumeric()
+    .withMessage("Cooking time should be a number"),
+  body("category")
+    .notEmpty()
+    .withMessage("Category cannot be empty")
+    .isIn(Object.values(recipeCategory))
+    .withMessage("Category should be a valid choice"),
+  // body("recipeIngredients.*.ingredientName")
+  //   .notEmpty()
+  //   .withMessage("Ingredient name cannot be empty")
+  //   .isLength({ max: 20 })
+  //   .withMessage("Ingredient is too long"),
+  // body("recipeIngredients.*.ingredientQty")
+  //   .notEmpty()
+  //   .withMessage("Ingredient quantity cannot be empty")
+  //   .isNumeric()
+  //   .withMessage("Ingredient quantity should a number"),
 ]);
