@@ -179,14 +179,14 @@ export const addRecipeValidation = withValidationErrors([
     .withMessage("Category cannot be empty")
     .isIn(Object.values(recipeCategory))
     .withMessage("Category should be a valid choice"),
-  body("recipeIngredients.*.ingredientName")
-    .notEmpty()
-    .withMessage("Ingredient name cannot be empty")
-    .isLength({ max: 20 })
-    .withMessage("Ingredient is too long"),
-  body("recipeIngredients.*.ingredientQty")
-    .notEmpty()
-    .withMessage("Ingredient quantity cannot be empty")
-    .isNumeric()
-    .withMessage("Ingredient quantity should a number"),
+  // body("recipeIngredients.*.ingredientName")
+  //   .notEmpty()
+  //   .withMessage("Ingredient name cannot be empty")
+  //   .isLength({ max: 20 })
+  //   .withMessage("Ingredient is too long"),
+  // body("recipeIngredients.*.ingredientQty")
+  //   .notEmpty()
+  //   .withMessage("Ingredient quantity cannot be empty")
+  //   .isNumeric()
+  //   .withMessage("Ingredient quantity should a number"),
 ]);
