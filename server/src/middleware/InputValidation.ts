@@ -11,6 +11,8 @@ import { StatusCodes } from "http-status-codes";
 import { UserInterface } from "../models/UserSchema";
 
 import { recipeCategory } from "../utils/recipecategory";
+import mongoose from "mongoose";
+import RecipeModel from "../models/RecipeSchema";
 
 //create a function that will handle the error
 //This function will accept an array (validateValues) of valeus to be validated.
@@ -189,4 +191,18 @@ export const addRecipeValidation = withValidationErrors([
   //   .withMessage("Ingredient quantity cannot be empty")
   //   .isNumeric()
   //   .withMessage("Ingredient quantity should a number"),
+]);
+
+export const getSingleRecipeValidation = withValidationErrors([
+  param("id").custom(async (id) => {
+    const validMongoId = mongoose.Types.ObjectId.isValid(id);
+    if (!validMongoId) {
+      throw new ExpressError(
+        "Not a valid mongo id",
+        StatusCodes.NOT_ACCEPTABLE
+      );
+    } else {
+      const foundRecipe = await RecipeModel.findById(id);
+    }
+  }),
 ]);
