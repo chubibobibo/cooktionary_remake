@@ -73,3 +73,17 @@ export const getRecipes = async (req: Request, res: Response) => {
       .json({ messages: "All recipes found", allRecipes });
   }
 };
+
+/** GET SINGLE RECIPE */
+export const getSingleRecipe = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  if (!id) {
+    throw new ExpressError("No recipeId found", StatusCodes.NOT_FOUND);
+  }
+  const foundRecipe = await RecipeModel.findById(id);
+  if (!foundRecipe) {
+    throw new ExpressError("Recipe does not exist", StatusCodes.NOT_FOUND);
+  }
+
+  res.status(StatusCodes.OK).json({ message: "Found recipe", foundRecipe });
+};
