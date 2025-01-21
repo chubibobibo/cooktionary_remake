@@ -22,14 +22,24 @@ export const addRecipe = async (req: Request, res: Response) => {
   }
 
   /** @mappedIngredients req.body.recipeIngredients is an array of stringified objects (from sending the formData). Mapped every item to parse each one then returns the parsed objects in a new array*/
-  const mappedIngredients = req.body.recipeIngredients.map(
-    (ingredient: any) => {
-      const parsedIngredient = JSON.parse(ingredient);
-      return parsedIngredient;
-    }
-  );
+  /** @NOTE checked recipeIngredients if an array to fix input having only one ingredient. */
+  /** @parsedCookingTime parsing cookingTime sent as a string in the client*/
+  if (Array.isArray(req.body.recipeIngredients)) {
+    const mappedIngredients = req.body.recipeIngredients.map(
+      (ingredient: any) => {
+        const parsedIngredient = JSON.parse(ingredient);
+        return parsedIngredient;
+      }
+    );
+    req.body.recipeIngredients = mappedIngredients; //parsed obj in a new
+  } else {
+    const mappedIngredients = JSON.parse(req.body.recipeIngredients);
+    req.body.recipeIngredients = mappedIngredients; //parsed obj in a new array as value for req.body.recipeIngredients
+  }
 
-  req.body.recipeIngredients = mappedIngredients; //parsed obj in a new array as value for req.body.recipeIngredients
+  const parsedCookingTime = JSON.parse(req.body.cookingTime);
+
+  req.body.cookingTime = parsedCookingTime;
   req.body.recipeAuthor = req.user?._id;
 
   const newRecipe = await RecipeModel.create(req.body);
