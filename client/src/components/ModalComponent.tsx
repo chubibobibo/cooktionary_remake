@@ -118,7 +118,7 @@ const ModalComponent = ({
     });
     formData.append("recipeInstructions", recipes.recipeInstructions);
     formData.append("recipeDescription", recipes.recipeDescription);
-    formData.append("cookingTime", recipes.cookingTime);
+    formData.append("cookingTime", recipes.cookingTime.toString());
     formData.append("category", recipes.category);
     formData.append("photoUrl", recipes.photoUrl);
     formData.append("photoId", recipes.photoId);
@@ -141,7 +141,7 @@ const ModalComponent = ({
         });
         toast.success("Created new recipe");
         setOpenModal(false);
-        return redirect("/dashboard/myRecipes");
+        return navigate("/dashboard/myRecipes");
       }
     } catch (err) {
       //type check err if axios error
@@ -282,7 +282,7 @@ const ModalComponent = ({
             </div>
 
             {/** Add ingredients and quantity */}
-            <div className='bg-red-100 w-full h-[40rem]'>
+            <div className='bg-red-50 w-full h-[40rem]'>
               <div className='p-2'>
                 <h2 className='font-rubik'>Add your ingredients</h2>
               </div>
@@ -371,7 +371,9 @@ const ModalComponent = ({
                 </div>
               </div>
             </div>
-            <Button type='submit'>Submit</Button>
+            <Button type='submit' theme={customTheme} color='customLoginBtn'>
+              Submit
+            </Button>
           </Form>
         </Modal.Body>
       </Modal>
