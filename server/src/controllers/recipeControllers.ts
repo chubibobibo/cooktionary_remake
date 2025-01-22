@@ -61,7 +61,7 @@ export const getRecipes = async (req: Request, res: Response) => {
     recipeAuthor: req.user?._id,
   };
 
-  /** create a new entry in queryObj depending from the search query recieved using regex */
+  /** create a new entry in queryObj depending from the search query received using regex */
   if (search) {
     queryObj.$or = [{ recipeName: { $regex: search, $options: "i" } }];
   }

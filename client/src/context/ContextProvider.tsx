@@ -14,6 +14,9 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const [userData, setUserData] = useState<UserDataType>();
 
   useEffect(() => {
+    // new instance of abort controller for cleanup function
+    const controller = new AbortController();
+
     const getLoggedUser = async () => {
       try {
         const response = await axios.get("/api/auth/getLoggedUser");
@@ -24,6 +27,11 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
       }
     };
     getLoggedUser();
+
+    //cleanup function if a component unmounts
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   return (

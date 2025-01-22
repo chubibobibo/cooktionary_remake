@@ -5,6 +5,7 @@ import { IoFish } from "react-icons/io5";
 import { FaLeaf } from "react-icons/fa6";
 import { MdCake } from "react-icons/md";
 import { BiFoodMenu } from "react-icons/bi";
+import { GiChickenOven } from "react-icons/gi";
 
 export const badges = [
   {
@@ -31,6 +32,11 @@ export const badges = [
     category: "dessert",
     bdgIcon: MdCake,
     name: "dessert",
+  },
+  {
+    category: "chicken",
+    bdgIcon: GiChickenOven,
+    name: "chicken",
   },
 
   {

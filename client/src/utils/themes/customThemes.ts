@@ -87,7 +87,7 @@ export const customNavbar: CustomFlowbiteTheme["navbar"] = {
 
 export const customCard: CustomFlowbiteTheme["card"] = {
   root: {
-    base: "flex rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800",
+    base: "flex rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800 w-[14rem]",
     // children: "flex h-full flex-col justify-center gap-4 p-6",
     children: "flex h-full flex-col mt-2 items-center",
     horizontal: {
