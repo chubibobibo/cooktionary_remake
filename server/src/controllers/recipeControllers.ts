@@ -71,7 +71,9 @@ export const getRecipes = async (req: Request, res: Response) => {
     queryObj.$or = [{ category: { $regex: searchCategory, $options: "i" } }];
   }
 
-  const allRecipes = await RecipeModel.find(queryObj).populate("recipeAuthor");
+  const allRecipes = await RecipeModel.find(queryObj)
+    .populate("recipeAuthor")
+    .sort({ createdAt: -1 });
   if (allRecipes.length === 0) {
     res.status(StatusCodes.OK).json({ message: "Wow, It's empty here!" });
   } else {

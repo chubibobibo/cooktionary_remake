@@ -1,10 +1,11 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import CardComponent from "./CardComponent";
 
 import { useLoaderData, LoaderFunctionArgs } from "react-router-dom";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  console.log({ params });
+  //   console.log({ params });
   try {
     const recipe = await axios.get(`/api/recipe/getSingleRecipe/${params.id}`);
     return recipe;
@@ -20,13 +21,13 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
 function RecipeCardComponent() {
   const recipeData = useLoaderData();
+  const foundRecipe = recipeData.data.foundRecipe;
   console.log(recipeData);
 
   return (
-    <div>
-      RecipeCardComponent: {recipeData.data.foundRecipe._id}:{" "}
-      {recipeData.data.foundRecipe.recipeName}
-    </div>
+    <section className='flex justify-center items-center p-10'>
+      <CardComponent allrecipes={foundRecipe} />
+    </section>
   );
 }
 export default RecipeCardComponent;
