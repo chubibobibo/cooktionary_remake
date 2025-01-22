@@ -21,7 +21,7 @@ import {
 } from "../types/InputProps";
 import { FaPlus } from "react-icons/fa";
 
-import { Form, redirect, useNavigate } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";

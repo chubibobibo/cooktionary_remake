@@ -9,6 +9,7 @@ import {
   LandingPage,
   DashboardLayout,
   MyRecipes,
+  RecipeCardComponent,
 } from "./utils";
 
 import ProtectRoutes from "./utils/ProtectRoutes";
@@ -16,6 +17,7 @@ import ProtectRoutes from "./utils/ProtectRoutes";
 import { action as registerAction } from "./pages/authPages/Register";
 import { action as loginAction } from "./pages/authPages/Login";
 import { loader as getRecipesLoader } from "./pages/dashboardPages/MyRecipes";
+import { loader as getSingleRecipeLoader } from "./components/RecipeCardComponent";
 
 function App() {
   const router = createBrowserRouter([
@@ -51,6 +53,15 @@ function App() {
                 </ProtectRoutes>
               ),
               loader: getRecipesLoader,
+            },
+            {
+              path: "recipe/:id",
+              element: (
+                <ProtectRoutes>
+                  <RecipeCardComponent />
+                </ProtectRoutes>
+              ),
+              loader: getSingleRecipeLoader,
             },
           ],
         },

@@ -6,21 +6,31 @@ import { customCard } from "../utils/themes/customThemes";
 
 import { RecipeArray } from "../types/InputProps";
 
+import { useNavigate } from "react-router-dom";
+
 /** @RecipeArray types for all the contents of the recipe data. */
 
 interface CardComponentProps {
   allrecipes: RecipeArray;
+  // recipeId: string | null;
 }
 
 function CardComponent({ allrecipes }: CardComponentProps) {
+  const navigate = useNavigate();
+  const handleClickNavigate = () => {
+    navigate(`/dashboard/recipe/${allrecipes._id}`);
+  };
+
+  // console.log(allrecipes);
   return (
     <>
       {/* @Vertical Card component that displays the recipe card */}
       <Card
-        className='min-w-11/12 h-[17rem] border-[2px] border-customLoginBtnColor md:hidden'
+        className='min-w-12/12 h-[17rem] border-[2px] border-customLoginBtnColor md:hidden'
         imgAlt='Recipe image'
         imgSrc='../../src/assets/CooktionaryLogo.png'
         theme={customCard}
+        onClick={handleClickNavigate}
       >
         <p className='text-sm font-bold tracking-tight text-gray-900 dark:text-white mt-2'>
           {allrecipes?.recipeName}
@@ -48,7 +58,7 @@ function CardComponent({ allrecipes }: CardComponentProps) {
               <MdOutlineDescription size='18px' />
             </span>
             <span className='font-rubik text-xs text-gray-700 dark:text-gray-400'>
-              This is a description for the recipe. the
+              {allrecipes?.recipeDescription}
             </span>
           </section>
         </section>
@@ -60,6 +70,7 @@ function CardComponent({ allrecipes }: CardComponentProps) {
         imgSrc='../../src/assets/CooktionaryLogo.png'
         theme={customCard}
         horizontal
+        onClick={handleClickNavigate}
       >
         <p className='text-sm font-bold tracking-tight text-gray-900 dark:text-white mt-2 md:text-xl capitalize'>
           {allrecipes.recipeName}

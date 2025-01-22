@@ -6,3 +6,4 @@ export { default as LandingPage } from "../pages/LandingPage";
 export { default as DashboardLayout } from "../pages/DashboardLayout";
 export { default as MyRecipes } from "../pages/dashboardPages/MyRecipes";
 export { default as Nav } from "../components/Nav";
+export { default as RecipeCardComponent } from "../components/RecipeCardComponent";
