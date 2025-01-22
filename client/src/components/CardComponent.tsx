@@ -26,9 +26,9 @@ function CardComponent({ allrecipes }: CardComponentProps) {
     <>
       {/* @Vertical Card component that displays the recipe card */}
       <Card
-        className='min-w-12/12 h-[17rem] border-[2px] border-customLoginBtnColor md:hidden'
+        className='min-w-12/12 h-[20rem] border-[2px] border-customLoginBtnColor md:hidden cursor-pointer'
         imgAlt='Recipe image'
-        imgSrc='../../src/assets/CooktionaryLogo.png'
+        imgSrc={allrecipes.photoUrl}
         theme={customCard}
         onClick={handleClickNavigate}
       >
@@ -65,9 +65,9 @@ function CardComponent({ allrecipes }: CardComponentProps) {
       </Card>
       {/** horizontal card*/}
       <Card
-        className='md:w-full md:h-[17rem] border-[2px] border-customLoginBtnColor hidden md:flex'
+        className='md:w-full md:h-[17rem] border-[2px] border-customLoginBtnColor hidden md:flex cursor-pointer'
         imgAlt='Meaningful alt text for an image that is not purely decorative'
-        imgSrc='../../src/assets/CooktionaryLogo.png'
+        imgSrc={allrecipes.photoUrl}
         theme={customCard}
         horizontal
         onClick={handleClickNavigate}
@@ -89,7 +89,7 @@ function CardComponent({ allrecipes }: CardComponentProps) {
               <IoMdTime size='24px' />
             </span>
             <span className='font-rubik text-xs text-gray-700 dark:text-gray-400 md:text-base md:mb-2'>
-              {`${allrecipes.cookingTime} minutes`}
+              {`${allrecipes?.cookingTime} minutes`}
             </span>
           </section>
           <section className='flex py-2'>
@@ -97,7 +97,7 @@ function CardComponent({ allrecipes }: CardComponentProps) {
               <MdOutlineDescription size='24px' />
             </span>
             <span className='font-rubik text-xs text-gray-700 dark:text-gray-400 md:text-base'>
-              This is a description for the recipe. Another description
+              {allrecipes?.recipeDescription}
             </span>
           </section>
         </section>
