@@ -38,7 +38,7 @@ const RecipeSchema = new Schema<RecipeInterface>(
           required: true,
         },
         ingredientQty: {
-          type: Number,
+          type: String,
         },
       },
     ],
