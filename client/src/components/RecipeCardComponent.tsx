@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import CardComponent from "./CardComponent";
+import { customCardSize } from "../utils/customComponentsizes/customCardSize";
 
 import { useLoaderData, LoaderFunctionArgs } from "react-router-dom";
 
@@ -25,8 +26,12 @@ function RecipeCardComponent() {
   console.log(recipeData);
 
   return (
-    <section className='flex justify-center items-center p-10'>
-      <CardComponent allrecipes={foundRecipe} />
+    <section className='flex justify-center items-center p-2'>
+      <CardComponent
+        allrecipes={foundRecipe}
+        custSizeWidth={customCardSize.cusCardWidth}
+        custSizeHeight={customCardSize.cusCardHeight}
+      />
     </section>
   );
 }

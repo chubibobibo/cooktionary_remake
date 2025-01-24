@@ -4,6 +4,7 @@ import CardComponent from "../../components/CardComponent";
 
 import { badges } from "../../utils/BadgesArray";
 import { customInput, customTheme } from "../../utils/themes/customThemes";
+import { customCardSize } from "../../utils/customComponentsizes/customCardSize";
 import { LazyComponentLoad } from "../../utils/LazyComponentLoad";
 
 import { TextInput, Button } from "flowbite-react";
@@ -162,7 +163,11 @@ function MyRecipes() {
             return (
               <section key={allrecipes._id}>
                 <LazyComponentLoad>
-                  <CardComponent allrecipes={allrecipes} />
+                  <CardComponent
+                    allrecipes={allrecipes}
+                    custSizeWidth={customCardSize.cusCardWidthIndex}
+                    custSizeHeight={customCardSize.cusCardHeightIndex}
+                  />
                 </LazyComponentLoad>
               </section>
             );
