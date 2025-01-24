@@ -12,22 +12,28 @@ import { useNavigate } from "react-router-dom";
 
 interface CardComponentProps {
   allrecipes: RecipeArray;
+  custSizeWidth: string;
+  custSizeHeight: string;
   // recipeId: string | null;
 }
 
-function CardComponent({ allrecipes }: CardComponentProps) {
+function CardComponent({
+  allrecipes,
+  custSizeWidth,
+  custSizeHeight,
+}: CardComponentProps) {
   const navigate = useNavigate();
   const handleClickNavigate = () => {
     navigate(`/dashboard/recipe/${allrecipes._id}`);
   };
 
-  // console.log(allrecipes);
+  console.log(custSizeWidth);
   return (
-    <>
+    <section className='flex justify-center sm:p-2 gap-3'>
       {/* @Vertical Card component that displays the recipe card */}
       <Card
-        className='min-w-12/12 h-[20rem] border-[2px] border-customLoginBtnColor md:hidden cursor-pointer'
-        imgAlt='Recipe image'
+        className={`w-${custSizeWidth} h-${custSizeHeight} border-[2px] border-customLoginBtnColor md:hidden cursor-pointer`}
+        imgAlt='recipe image'
         imgSrc={allrecipes.photoUrl}
         theme={customCard}
         onClick={handleClickNavigate}
@@ -65,8 +71,8 @@ function CardComponent({ allrecipes }: CardComponentProps) {
       </Card>
       {/** horizontal card*/}
       <Card
-        className='md:w-full md:h-[17rem] border-[2px] border-customLoginBtnColor hidden md:flex cursor-pointer'
-        imgAlt='Meaningful alt text for an image that is not purely decorative'
+        className='md:w-full md:h-[20rem] border-[2px] border-customLoginBtnColor hidden md:flex cursor-pointer'
+        imgAlt='recipe image'
         imgSrc={allrecipes.photoUrl}
         theme={customCard}
         horizontal
@@ -102,7 +108,7 @@ function CardComponent({ allrecipes }: CardComponentProps) {
           </section>
         </section>
       </Card>
-    </>
+    </section>
   );
 }
 export default CardComponent;

@@ -91,7 +91,7 @@ export const customCard: CustomFlowbiteTheme["card"] = {
     // children: "flex h-full flex-col justify-center gap-4 p-6",
     children: "flex h-full flex-col mt-2 items-center",
     horizontal: {
-      off: "flex-col sm:w-[18rem] xs:w-[25rem] xs:w-12/12",
+      off: "flex-col sm:w-[18rem] xs:w-[25rem]",
       on: "flex-col md:w-12/12 md:flex-row",
     },
     href: "hover:bg-gray-100 dark:hover:bg-gray-700",
@@ -99,8 +99,8 @@ export const customCard: CustomFlowbiteTheme["card"] = {
   img: {
     base: "",
     horizontal: {
-      off: "rounded-t-lg h-[7rem] object-cover",
-      on: "h-96 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg",
+      off: "rounded-t-lg h-[10rem] object-cover",
+      on: "h-96 w-[20rem] rounded-t-lg object-cover object-center md:h-auto md:w-48 md:rounded-none md:rounded-l-lg",
     },
   },
 };
