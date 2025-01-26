@@ -167,6 +167,7 @@ function MyRecipes() {
                     allrecipes={allrecipes}
                     custSizeWidth={customCardSize.cusCardWidthIndex}
                     custSizeHeight={customCardSize.cusCardHeightIndex}
+                    isButtonVisible={false}
                   />
                 </LazyComponentLoad>
               </section>

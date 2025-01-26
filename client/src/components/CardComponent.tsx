@@ -1,12 +1,15 @@
 import { Card } from "flowbite-react";
+import { Button } from "flowbite-react";
 
 import { IoMdTime } from "react-icons/io";
 import { MdOutlineDescription } from "react-icons/md";
 import { customCard } from "../utils/themes/customThemes";
+import { customTheme } from "../utils/themes/customThemes";
 
 import { RecipeArray } from "../types/InputProps";
 
 import { useNavigate } from "react-router-dom";
+import RecipeTableComponent from "./RecipeTableComponent";
 
 /** @RecipeArray types for all the contents of the recipe data. */
 
@@ -14,6 +17,7 @@ interface CardComponentProps {
   allrecipes: RecipeArray;
   custSizeWidth: string;
   custSizeHeight: string;
+  isButtonVisible: boolean;
   // recipeId: string | null;
 }
 
@@ -21,13 +25,14 @@ function CardComponent({
   allrecipes,
   custSizeWidth,
   custSizeHeight,
+  isButtonVisible,
 }: CardComponentProps) {
   const navigate = useNavigate();
   const handleClickNavigate = () => {
     navigate(`/dashboard/recipe/${allrecipes._id}`);
   };
 
-  console.log(custSizeWidth);
+  console.log(allrecipes);
   return (
     <section className='flex justify-center sm:p-2 gap-3'>
       {/* @Vertical Card component that displays the recipe card */}
@@ -67,7 +72,26 @@ function CardComponent({
               {allrecipes?.recipeDescription}
             </span>
           </section>
+          {isButtonVisible && (
+            <section>{allrecipes?.recipeInstructions}</section>
+          )}
         </section>
+        {/* Dynamically rendered buttons and tables for all the recipe data}*/}
+        {isButtonVisible && (
+          <>
+            <section className='flex gap-5 mt-5'>
+              <Button theme={customTheme} color='customLoginBtn'>
+                Update
+              </Button>
+              <Button theme={customTheme} color='customLoginBtn'>
+                Delete
+              </Button>
+            </section>
+            <section>
+              <RecipeTableComponent />
+            </section>
+          </>
+        )}
       </Card>
       {/** horizontal card*/}
       <Card
@@ -107,6 +131,22 @@ function CardComponent({
             </span>
           </section>
         </section>
+        {/* Dynamically rendered buttons and tables for all the recipe data}*/}
+        {isButtonVisible && (
+          <>
+            <section className='flex gap-5 mt-5'>
+              <Button theme={customTheme} color='customLoginBtn'>
+                Update
+              </Button>
+              <Button theme={customTheme} color='customLoginBtn'>
+                Delete
+              </Button>
+            </section>
+            <section>
+              <RecipeTableComponent />
+            </section>
+          </>
+        )}
       </Card>
     </section>
   );
