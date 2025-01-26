@@ -6,7 +6,6 @@ import { customCardSize } from "../utils/customComponentsizes/customCardSize";
 import { useLoaderData, LoaderFunctionArgs } from "react-router-dom";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  //   console.log({ params });
   try {
     const recipe = await axios.get(`/api/recipe/getSingleRecipe/${params.id}`);
     return recipe;
@@ -23,14 +22,16 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 function RecipeCardComponent() {
   const recipeData = useLoaderData();
   const foundRecipe = recipeData.data.foundRecipe;
-  console.log(recipeData);
+
+  /** @isButtonVisible boolean that allows to display dynamically buttons and other recipe contents at the single recipe page. */
 
   return (
-    <section className='flex justify-center items-center p-2'>
+    <section className='flex justify-center items-center p-10'>
       <CardComponent
         allrecipes={foundRecipe}
         custSizeWidth={customCardSize.cusCardWidth}
         custSizeHeight={customCardSize.cusCardHeight}
+        isButtonVisible={true}
       />
     </section>
   );
