@@ -10,3 +10,5 @@ export const loggedUser = {
   role: "",
 };
 export const loggedUserContext = createContext(loggedUser);
+
+export const recipeDataContext = createContext(loggedUser);

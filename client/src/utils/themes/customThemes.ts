@@ -99,8 +99,8 @@ export const customCard: CustomFlowbiteTheme["card"] = {
   img: {
     base: "",
     horizontal: {
-      off: "rounded-t-lg h-[10rem] object-cover",
-      on: "h-96 w-[20rem] rounded-t-lg object-cover object-center md:h-auto md:w-74 md:rounded-sm md:rounded-l-lg",
+      off: "rounded-t-lg h-[20rem] object-cover",
+      on: "h-96 w-[20em] rounded-t-lg object-cover object-center md:h-auto md:w-74 md:rounded-sm md:rounded-l-lg",
     },
   },
 };
