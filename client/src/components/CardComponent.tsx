@@ -32,9 +32,10 @@ function CardComponent({
     navigate(`/dashboard/recipe/${allrecipes._id}`);
   };
 
-  console.log(allrecipes);
+  // console.log(allrecipes);
+
   return (
-    <section className='flex justify-center sm:p-2 gap-3'>
+    <section className='flex justify-center sm:p-2 gap-3 flex-col'>
       {/* @Vertical Card component that displays the recipe card */}
       <Card
         className={`w-${custSizeWidth} h-${custSizeHeight} border-[2px] border-customLoginBtnColor md:hidden cursor-pointer`}
@@ -79,16 +80,18 @@ function CardComponent({
         {/* Dynamically rendered buttons and tables for all the recipe data}*/}
         {isButtonVisible && (
           <>
-            <section className='flex gap-5 mt-5'>
+            <section>
+              <RecipeTableComponent
+                ingredients={allrecipes?.recipeIngredients}
+              />
+            </section>
+            <section className='flex gap-5 mt-5 mb-3'>
               <Button theme={customTheme} color='customLoginBtn'>
                 Update
               </Button>
               <Button theme={customTheme} color='customLoginBtn'>
                 Delete
               </Button>
-            </section>
-            <section>
-              <RecipeTableComponent />
             </section>
           </>
         )}
@@ -134,6 +137,12 @@ function CardComponent({
         {/* Dynamically rendered buttons and tables for all the recipe data}*/}
         {isButtonVisible && (
           <>
+            <section>
+              <RecipeTableComponent
+                ingredients={allrecipes?.recipeIngredients}
+              />
+            </section>
+
             <section className='flex gap-5 mt-5'>
               <Button theme={customTheme} color='customLoginBtn'>
                 Update
@@ -141,9 +150,6 @@ function CardComponent({
               <Button theme={customTheme} color='customLoginBtn'>
                 Delete
               </Button>
-            </section>
-            <section>
-              <RecipeTableComponent />
             </section>
           </>
         )}
