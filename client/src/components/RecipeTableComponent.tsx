@@ -12,7 +12,7 @@ function RecipeTableComponent({ ingredients }: IngredientProps) {
   /** indicate a fixed width for overflow to work */
 
   return (
-    <div className='overflow-x-auto w-[20rem] mt-5'>
+    <div className='overflow-x-auto w-[20rem] md:w-full mt-5'>
       <Table striped>
         <Table.Head>
           <Table.HeadCell>Ingredients</Table.HeadCell>

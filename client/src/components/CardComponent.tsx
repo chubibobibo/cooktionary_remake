@@ -33,12 +33,14 @@ function CardComponent({
   };
 
   // console.log(allrecipes);
-
+  // console.log(isButtonVisible);
   return (
     <section className='flex justify-center sm:p-2 gap-3 flex-col'>
       {/* @Vertical Card component that displays the recipe card */}
       <Card
-        className={`w-${custSizeWidth} h-${custSizeHeight} border-[2px] border-customLoginBtnColor md:hidden cursor-pointer`}
+        className={`w-${custSizeWidth} h-${custSizeHeight} border-[2px] border-customLoginBtnColor md:hidden cursor-pointer ${
+          isButtonVisible && "sm:w-[30rem]"
+        }`}
         imgAlt='recipe image'
         imgSrc={allrecipes.photoUrl}
         theme={customCard}
@@ -80,7 +82,7 @@ function CardComponent({
         {/* Dynamically rendered buttons and tables for all the recipe data}*/}
         {isButtonVisible && (
           <>
-            <section>
+            <section className='w-full place-items-center'>
               <RecipeTableComponent
                 ingredients={allrecipes?.recipeIngredients}
               />
@@ -98,7 +100,9 @@ function CardComponent({
       </Card>
       {/** horizontal card*/}
       <Card
-        className='md:w-full md:h-[20rem] border-[2px] border-customLoginBtnColor hidden md:flex cursor-pointer'
+        className={`md:w-full md:h-[20rem] md:w[50rem] border-[2px] border-customLoginBtnColor hidden md:flex cursor-pointer ${
+          isButtonVisible && "md:h-[35rem] "
+        }`}
         imgAlt='recipe image'
         imgSrc={allrecipes.photoUrl}
         theme={customCard}
@@ -137,7 +141,7 @@ function CardComponent({
         {/* Dynamically rendered buttons and tables for all the recipe data}*/}
         {isButtonVisible && (
           <>
-            <section>
+            <section className='w-full'>
               <RecipeTableComponent
                 ingredients={allrecipes?.recipeIngredients}
               />
