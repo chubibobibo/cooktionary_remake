@@ -1,3 +1,5 @@
+/** @NOTE THIS IS A TABLE COMPONENT THAT IS RENDERED IN THE PARENT COMPONENT CARD COMPONENT */
+
 import { Table } from "flowbite-react";
 
 import { IngredientStateProps } from "../types/InputProps";
@@ -12,7 +14,7 @@ function RecipeTableComponent({ ingredients }: IngredientProps) {
   /** indicate a fixed width for overflow to work */
 
   return (
-    <div className='overflow-x-auto w-[20rem] md:w-full mt-5'>
+    <div className='overflow-x-auto w-[20rem] md:w-full mt-5 mb-10'>
       <Table striped>
         <Table.Head>
           <Table.HeadCell>Ingredients</Table.HeadCell>
@@ -33,14 +35,14 @@ function RecipeTableComponent({ ingredients }: IngredientProps) {
                     </Table.Cell>
                     <Table.Cell>{allRecipes?.ingredientQty}</Table.Cell>
 
-                    <Table.Cell>
+                    {/* <Table.Cell>
                       <a
                         href='#'
                         className='font-medium text-cyan-600 hover:underline dark:text-cyan-500'
                       >
                         Edit
                       </a>
-                    </Table.Cell>
+                    </Table.Cell> */}
                   </Table.Row>
                 </Table.Body>
               </>

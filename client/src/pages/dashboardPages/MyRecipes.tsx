@@ -56,6 +56,7 @@ function MyRecipes() {
   /** @recipeData array of objects containing allRecipes */
   /** @openModal state to handle modal opening */
   /** @handleQueryChange state to handle query inputs changes */
+  /** @isButtonVisible boolean that allows to display dynamically buttons and other recipe contents at the single recipe page. */
 
   const data = useLoaderData();
   const submit = useSubmit();
@@ -153,7 +154,7 @@ function MyRecipes() {
         </Form>
       </section>
       {/** mapped cards */}
-      <section className='mt-1 p-2 gap-2 grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 justify-items-center md:grid-cols-1 lg:grid-cols-1 lg:items-center xl:p-5 xl:grid-cols-2 2xl:grid-cols-2 3xl:grid-cols-4'>
+      <section className='mt-1 p-2 gap-4 grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 justify-items-center md:grid-cols-1 lg:grid-cols-1 lg:items-center xl:p-5 xl:grid-cols-2 2xl:grid-cols-2 3xl:grid-cols-4'>
         {!data?.data?.allRecipes ? (
           <section className='grid col-span-3 text-base xl:col-span-4 xl:text-2xl'>
             <h1>Wow it's empty here...</h1>

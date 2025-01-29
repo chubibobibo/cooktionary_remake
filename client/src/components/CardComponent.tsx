@@ -1,9 +1,13 @@
+/** @NOTE CARD COMPONENT REUSED IN THE MAPPED CARDS IN MYRECIPES COMPONENT AND IN THE RECIPECARDCOMPONENT */
+
+/** @NOTE CREATED 2 CUSTOM THEMES FOR THE CARDS DEPENDING WHERE IT WAS USED, USING A BOOLEAN (isButtonVisible) VALUE TO DIFFERENTIATE */
+
 import { Card } from "flowbite-react";
 import { Button } from "flowbite-react";
 
 import { IoMdTime } from "react-icons/io";
 import { MdOutlineDescription } from "react-icons/md";
-import { customCard } from "../utils/themes/customThemes";
+import { customCard, customSingleCard } from "../utils/themes/customThemes";
 import { customTheme } from "../utils/themes/customThemes";
 
 import { RecipeArray } from "../types/InputProps";
@@ -24,7 +28,7 @@ interface CardComponentProps {
 function CardComponent({
   allrecipes,
   custSizeWidth,
-  custSizeHeight,
+
   isButtonVisible,
 }: CardComponentProps) {
   const navigate = useNavigate();
@@ -38,7 +42,7 @@ function CardComponent({
     <section className='flex justify-center sm:p-2 gap-3 flex-col'>
       {/* @Vertical Card component that displays the recipe card */}
       <Card
-        className={`w-${custSizeWidth} h-${custSizeHeight} border-[2px] border-customLoginBtnColor md:hidden cursor-pointer ${
+        className={`w-${custSizeWidth}  border-[2px] border-customLoginBtnColor md:hidden cursor-pointer ${
           isButtonVisible && "sm:w-[30rem]"
         }`}
         imgAlt='recipe image'
@@ -105,7 +109,8 @@ function CardComponent({
         }`}
         imgAlt='recipe image'
         imgSrc={allrecipes.photoUrl}
-        theme={customCard}
+        // theme={customCard}
+        theme={isButtonVisible ? customSingleCard : customCard}
         horizontal
         onClick={handleClickNavigate}
       >

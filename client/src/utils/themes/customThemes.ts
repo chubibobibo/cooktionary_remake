@@ -1,3 +1,5 @@
+/** @NOTE THIS IS A CARD COMPONENT FOR THE SINGLE RECIPE PAGE */
+
 import type { CustomFlowbiteTheme } from "flowbite-react";
 
 export const customTheme: CustomFlowbiteTheme["button"] = {
@@ -91,6 +93,26 @@ export const customCard: CustomFlowbiteTheme["card"] = {
     // children: "flex h-full flex-col justify-center gap-4 p-6",
     children: "flex h-full flex-col mt-2 items-center",
     horizontal: {
+      off: "flex-col h-[27rem] md:h-[30rem] sm:w-[18rem] xs:w-[25rem]",
+      on: "flex-col md:w-12/12 md:flex-row",
+    },
+    href: "hover:bg-gray-100 dark:hover:bg-gray-700",
+  },
+  img: {
+    base: "",
+    horizontal: {
+      off: "rounded-t-lg h-[15rem] sm:h-[10rem] object-cover",
+      on: "h-96 w-[15rem] rounded-t-lg object-cover object-center md:h-auto md:rounded-sm md:rounded-l-lg",
+    },
+  },
+};
+
+export const customSingleCard: CustomFlowbiteTheme["card"] = {
+  root: {
+    base: "flex rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800 w-[14rem]",
+    // children: "flex h-full flex-col justify-center gap-4 p-6",
+    children: "flex h-full flex-col mt-2 items-center",
+    horizontal: {
       off: "flex-col sm:w-[18rem] xs:w-[25rem]",
       on: "flex-col md:w-12/12 md:flex-row",
     },
@@ -100,7 +122,7 @@ export const customCard: CustomFlowbiteTheme["card"] = {
     base: "",
     horizontal: {
       off: "rounded-t-lg h-[20rem] object-cover",
-      on: "h-96 w-[15rem] rounded-t-lg object-cover object-center md:h-auto md:rounded-sm md:rounded-l-lg",
+      on: "h-96 w-[30rem] rounded-none object-cover object-center md:h-auto md:rounded-sm md:rounded-l-lg",
     },
   },
 };
