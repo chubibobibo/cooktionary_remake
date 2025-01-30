@@ -102,7 +102,9 @@ cloudinary.config({
 
 /** ROUTES */
 app.use("/api/auth", authRouter);
+
 app.use("/api/recipe", recipeRouter);
+
 
 /** Page not found error middleware */
 app.use("*", (req: Request, res: Response) => {
