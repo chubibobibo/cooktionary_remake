@@ -1,3 +1,5 @@
+/** @NOTE THIS USES A CARD COMPONENT FOR THE SINGLE RECIPE PAGE THAT USES A SPECIFIC CUSTOM THEME */
+
 import axios from "axios";
 import { toast } from "react-toastify";
 import CardComponent from "./CardComponent";
