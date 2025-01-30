@@ -19,9 +19,6 @@ function RecipeTableComponent({ ingredients }: IngredientProps) {
         <Table.Head>
           <Table.HeadCell>Ingredients</Table.HeadCell>
           <Table.HeadCell>Quantity</Table.HeadCell>
-          <Table.HeadCell>
-            <span className='sr-only'>Edit</span>
-          </Table.HeadCell>
         </Table.Head>
         {Array.isArray(ingredients) &&
           ingredients.map((allRecipes) => {
@@ -29,21 +26,14 @@ function RecipeTableComponent({ ingredients }: IngredientProps) {
             return (
               <>
                 <Table.Body className='divide-y'>
+                  {/* <section key={allRecipes._id}> */}
                   <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
                     <Table.Cell className='whitespace-nowrap font-medium text-gray-900 dark:text-white'>
                       {allRecipes?.ingredientName}
                     </Table.Cell>
                     <Table.Cell>{allRecipes?.ingredientQty}</Table.Cell>
-
-                    {/* <Table.Cell>
-                      <a
-                        href='#'
-                        className='font-medium text-cyan-600 hover:underline dark:text-cyan-500'
-                      >
-                        Edit
-                      </a>
-                    </Table.Cell> */}
                   </Table.Row>
+                  {/* </section> */}
                 </Table.Body>
               </>
             );

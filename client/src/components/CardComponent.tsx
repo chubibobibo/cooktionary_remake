@@ -28,7 +28,6 @@ interface CardComponentProps {
 function CardComponent({
   allrecipes,
   custSizeWidth,
-
   isButtonVisible,
 }: CardComponentProps) {
   const navigate = useNavigate();
@@ -39,22 +38,22 @@ function CardComponent({
   // console.log(allrecipes);
   // console.log(isButtonVisible);
   return (
-    <section className='flex justify-center sm:p-2 gap-3 flex-col'>
+    <section className='flex justify-center sm:p-3 gap-4 flex-col'>
       {/* @Vertical Card component that displays the recipe card */}
       <Card
-        className={`w-${custSizeWidth}  border-[2px] border-customLoginBtnColor md:hidden cursor-pointer ${
+        className={`w-${custSizeWidth} border-[2px] border-customLoginBtnColor md:hidden cursor-pointer ${
           isButtonVisible && "sm:w-[30rem]"
         }`}
         imgAlt='recipe image'
         imgSrc={allrecipes.photoUrl}
-        theme={customCard}
+        theme={isButtonVisible ? customSingleCard : customCard}
         onClick={handleClickNavigate}
       >
-        <p className='text-sm font-bold tracking-tight text-gray-900 dark:text-white mt-2'>
+        <p className='text-sm font-bold tracking-tight text-gray-900 dark:text-white mt-2 mx-auto'>
           {allrecipes?.recipeName}
         </p>
         {/*card content section */}
-        <section className='p-2'>
+        <section className='p-2 flex-col'>
           <section className='flex mt-2 gap-1'>
             <span>
               <MdOutlineDescription size='18px' />
@@ -80,18 +79,25 @@ function CardComponent({
             </span>
           </section>
           {isButtonVisible && (
-            <section>{allrecipes?.recipeInstructions}</section>
+            <>
+              <section className='text-base font-semibold mt-2 '>
+                How to cook:
+              </section>
+              <section className='font-rubik text-xs text-gray-700 dark:text-gray-400 md:text-base'>
+                {allrecipes?.recipeInstructions}
+              </section>
+            </>
           )}
         </section>
         {/* Dynamically rendered buttons and tables for all the recipe data}*/}
         {isButtonVisible && (
-          <>
+          <section className='flex flex-col items-center'>
             <section className='w-full place-items-center'>
               <RecipeTableComponent
                 ingredients={allrecipes?.recipeIngredients}
               />
             </section>
-            <section className='flex gap-5 mt-5 mb-3'>
+            <section className='flex gap-5 mt-5 mb-3 '>
               <Button theme={customTheme} color='customLoginBtn'>
                 Update
               </Button>
@@ -99,22 +105,23 @@ function CardComponent({
                 Delete
               </Button>
             </section>
-          </>
+          </section>
         )}
       </Card>
       {/** horizontal card*/}
       <Card
-        className={`md:w-full md:h-[20rem] md:w[50rem] border-[2px] border-customLoginBtnColor hidden md:flex cursor-pointer ${
-          isButtonVisible && "md:h-[35rem] "
-        }`}
+        className={`${
+          isButtonVisible
+            ? "md:h-full p-3 hidden md:flex"
+            : "md:h-[20rem] border-[2px] border-customLoginBtnColor hidden md:flex cursor-pointer"
+        } `}
         imgAlt='recipe image'
         imgSrc={allrecipes.photoUrl}
-        // theme={customCard}
         theme={isButtonVisible ? customSingleCard : customCard}
         horizontal
         onClick={handleClickNavigate}
       >
-        <p className='text-sm font-bold tracking-tight text-gray-900 dark:text-white mt-2 md:text-xl capitalize'>
+        <p className='text-sm font-bold tracking-tight text-gray-900 dark:text-white mt-2 md:text-xl capitalize mx-auto'>
           {allrecipes.recipeName}
         </p>
         <section className='p-2'>
@@ -142,6 +149,17 @@ function CardComponent({
               {allrecipes?.recipeDescription}
             </span>
           </section>
+          {isButtonVisible && (
+            <>
+              <section className='text-base font-semibold mt-2 '>
+                {" "}
+                How to cook:
+              </section>
+              <section className='font-rubik text-xs text-gray-700 dark:text-gray-400 md:text-base'>
+                {allrecipes?.recipeInstructions}
+              </section>
+            </>
+          )}
         </section>
         {/* Dynamically rendered buttons and tables for all the recipe data}*/}
         {isButtonVisible && (

@@ -128,14 +128,16 @@ function MyRecipes() {
           <FaPlus className='mr-2 h-5 w-4 text-gray-700' />
           Create your own recipe
         </Button>
-        <ModalComponent
-          setOpenModal={setOpenModal}
-          openModal={openModal}
-          ingredients={ingredients}
-          setIngredients={setIngredients}
-          recipes={recipes}
-          setRecipes={setRecipes}
-        />
+        <section className='flex justify-center'>
+          <ModalComponent
+            setOpenModal={setOpenModal}
+            openModal={openModal}
+            ingredients={ingredients}
+            setIngredients={setIngredients}
+            recipes={recipes}
+            setRecipes={setRecipes}
+          />
+        </section>
       </section>
       {/** Query input for recipe name */}
       <section className='w-12/12 px-6 md:w-5/12 xl:w-3/12'>

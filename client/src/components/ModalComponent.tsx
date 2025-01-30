@@ -12,6 +12,7 @@ import {
   customInput,
   customTextArea,
   customTheme,
+  modalCustom,
 } from "../utils/themes/customThemes";
 
 import {
@@ -174,8 +175,13 @@ const ModalComponent = ({
   //   console.log(ingredients);
   //   console.log(recipes);
   return (
-    <>
-      <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
+    <section>
+      <Modal
+        dismissible
+        show={openModal}
+        onClose={() => setOpenModal(false)}
+        theme={modalCustom}
+      >
         <Modal.Header>Create your recipe</Modal.Header>
         <Modal.Body>
           <Form
@@ -377,7 +383,7 @@ const ModalComponent = ({
           </Form>
         </Modal.Body>
       </Modal>
-    </>
+    </section>
   );
 };
 export default ModalComponent;
